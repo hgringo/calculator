@@ -1,0 +1,47 @@
+<div class="app-layout">
+  <!-- Colonne gauche -->
+  <aside class="sidebar">
+    <img
+      src="assets/logo_cashconcept.png"
+      alt="CashConcept"
+      class="sidebar-logo"
+    />
+  </aside>
+
+  <!-- Colonne droite -->
+  <main class="calculator-container">
+    <div class="calculator">
+      <!-- Écran -->
+      <input class="display" [value]="display" readonly />
+
+      <!-- Grille des boutons -->
+      <div class="grid">
+        <button class="danger" (click)="clear()">C</button>
+        <button (click)="backspace()">⌫</button>
+        <button class="operator" (click)="append('/')">÷</button>
+        <button class="operator" (click)="append('*')">×</button>
+
+        <button (click)="append('7')">7</button>
+        <button (click)="append('8')">8</button>
+        <button (click)="append('9')">9</button>
+        <button class="operator" (click)="append('-')">−</button>
+
+        <button (click)="append('4')">4</button>
+        <button (click)="append('5')">5</button>
+        <button (click)="append('6')">6</button>
+        <button class="operator" (click)="append('+')">+</button>
+
+        <button (click)="append('1')">1</button>
+        <button (click)="append('2')">2</button>
+        <button (click)="append('3')">3</button>
+        <button class="equal" (click)="calculate()">=</button>
+
+        <button class="zero" (click)="append('0')">0</button>
+        <button (click)="append('.')">.</button>
+      </div>
+
+      <!-- Bouton Envoyer -->
+      <button class="send" (click)="send()">Envoyer</button>
+    </div>
+  </main>
+</div>

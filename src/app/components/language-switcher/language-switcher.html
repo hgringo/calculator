@@ -1,0 +1,11 @@
+<div style="display: flex; justify-content: center; gap: 10px; margin-top:15px;">
+  @for (lang of availableLangs; track lang) {
+    <button
+      class="language--btn"
+      [class.active]="lang === currentLang"
+      (click)="changeLang(lang)"
+    >
+      {{ lang.toUpperCase() }}
+    </button>
+  }
+</div>

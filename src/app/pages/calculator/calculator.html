@@ -1,47 +1,65 @@
-<div class="app-layout">
-  <!-- Colonne gauche -->
-  <aside class="sidebar">
-    <img
-      src="assets/logo_cashconcept.png"
-      alt="CashConcept"
-      class="sidebar-logo"
-    />
-  </aside>
+<div class="calculator" [class.locked]="isSending">
 
-  <!-- Colonne droite -->
-  <main class="calculator-container">
-    <div class="calculator">
-      <!-- Écran -->
-      <input class="display" [value]="display" readonly />
+  <!-- DISPLAY -->
+  <input pInputText class="display" [value]="display" readonly />
 
-      <!-- Grille des boutons -->
-      <div class="grid">
-        <button class="danger" (click)="clear()">C</button>
-        <button (click)="backspace()">⌫</button>
-        <button class="operator" (click)="append('/')">÷</button>
-        <button class="operator" (click)="append('*')">×</button>
+  <!-- GRID -->
+  <div class="grid">
 
-        <button (click)="append('7')">7</button>
-        <button (click)="append('8')">8</button>
-        <button (click)="append('9')">9</button>
-        <button class="operator" (click)="append('-')">−</button>
+    <p-button label="C" class="btn danger"
+      (onClick)="clear()" [disabled]="isSending" />
 
-        <button (click)="append('4')">4</button>
-        <button (click)="append('5')">5</button>
-        <button (click)="append('6')">6</button>
-        <button class="operator" (click)="append('+')">+</button>
+    <p-button icon="pi pi-delete-left" class="btn gray"
+      (onClick)="backspace()" [disabled]="isSending" />
 
-        <button (click)="append('1')">1</button>
-        <button (click)="append('2')">2</button>
-        <button (click)="append('3')">3</button>
-        <button class="equal" (click)="calculate()">=</button>
+    <p-button label="÷" class="btn operator"
+      (onClick)="append('/')" [disabled]="isSending" />
 
-        <button class="zero" (click)="append('0')">0</button>
-        <button (click)="append('.')">.</button>
-      </div>
+    <p-button label="×" class="btn operator"
+      (onClick)="append('*')" [disabled]="isSending" />
 
-      <!-- Bouton Envoyer -->
-      <button class="send" (click)="send()">Envoyer</button>
-    </div>
-  </main>
+    <p-button label="7" class="btn gray" (onClick)="append('7')" [disabled]="isSending" />
+    <p-button label="8" class="btn gray" (onClick)="append('8')" [disabled]="isSending" />
+    <p-button label="9" class="btn gray" (onClick)="append('9')" [disabled]="isSending" />
+    <p-button label="−" class="btn operator" (onClick)="append('-')" [disabled]="isSending" />
+
+    <p-button label="4" class="btn gray" (onClick)="append('4')" [disabled]="isSending" />
+    <p-button label="5" class="btn gray" (onClick)="append('5')" [disabled]="isSending" />
+    <p-button label="6" class="btn gray" (onClick)="append('6')" [disabled]="isSending" />
+    <p-button label="+" class="btn operator"
+      (onClick)="append('+')" [disabled]="isSending" />
+
+    <p-button label="1" class="btn gray" (onClick)="append('1')" [disabled]="isSending" />
+    <p-button label="2" class="btn gray" (onClick)="append('2')" [disabled]="isSending" />
+    <p-button label="3" class="btn gray" (onClick)="append('3')" [disabled]="isSending" />
+
+    <p-button label="=" class="btn equal"
+      (onClick)="calculate()" [disabled]="isSending" />
+
+    <p-button label="0" class="btn gray zero"
+      (onClick)="append('0')" [disabled]="isSending" />
+
+    <p-button label="." class="btn gray"
+      (onClick)="append('.')" [disabled]="isSending" />
+
+  </div>
+
+  <!-- SEND -->
+  <p-button class="send-btn" (onClick)="send()" [disabled]="isSending">
+
+    <ng-template pTemplate="content">
+      <ng-container *ngIf="!isSending">
+        {{ 'CALCULATOR.SEND' | translate }}
+      </ng-container>
+
+      <ng-container *ngIf="isSending">
+        <span class="spinner"></span>
+      </ng-container>
+    </ng-template>
+
+  </p-button>
+
 </div>
+
+
+<modal-ip></modal-ip>

@@ -1,0 +1,28 @@
+<div class="confirm-dialog">
+
+  <!-- Message -->
+  <div class="message">
+    <h3>{{ 'LOGS.TITLE' | translate }}</h3>
+    <p>
+      {{ 'LOGS.DESC' | translate }}
+    </p>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <p-button
+      severity="secondary"
+      label="{{ 'CANCEL' | translate}}"
+      icon="pi pi-times"
+      (onClick)="onCancel()"
+    ></p-button>
+
+    <p-button
+      severity="danger"
+      label="{{ 'DELETE' | translate}}"
+      icon="pi pi-trash"
+      (onClick)="onCleanLogs()"
+    ></p-button>
+  </div>
+
+</div>

@@ -1,0 +1,26 @@
+<div class="install-container">
+
+  <div class="card">
+    <img src="assets/pwa/logo.svg" class="logo"/>
+
+    <p class="subtitle">
+      Entrez le code d'installation
+    </p>
+
+    <input
+      type="text"
+      maxlength="10"
+      [value]="inputCode"
+      (input)="onCodeChange($any($event.target).value)"
+    />
+
+    <button
+      class="install-btn"
+      [disabled]="!unlocked"
+      (click)="install()">
+      Installer l'application
+    </button>
+
+  </div>
+
+</div>

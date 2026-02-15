@@ -1,0 +1,159 @@
+{
+  "RETURN": "Back to calculator",
+  "CANCEL": "Cancel",
+  "CLOSE": "Close",
+  "CLOSEALL": "Close all",
+  "DELETE": "Delete",
+  "SAVE": "Save",
+  "CONFIRM": "Confirm",
+  "SUPERADMIN": {
+    "TITLE": "Administration",
+    "DESC": "Manage your app's features and credentials.",
+    "MONNAYEUR": {
+      "TITLE": "Coin acceptor configuration",
+      "IP": "Coin Mechanist IP Address",
+      "UPDATE": "Update"
+    },
+    "THEME": {
+      "TITLE": "Theme",
+      "LOGO": {
+        "CHOOSE": "Choose a logo"
+      },
+      "COLOR": "Main color",
+      "SAV": {
+        "TITLE": "Technical support (after-sales service)",
+        "HINT": "This number will be displayed in the application to contact support."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Enabling Features"
+    },
+    "ACCESS": {
+      "TITLE": "Access code configuration"
+    }
+  },
+  "ADMIN": {
+    "TITLE": "Customer",
+    "RESTART": "Restart",
+    "SHUTDOWN": "Turn off",
+    "OPENDOOR": "Open the door",
+    "CASHCLOSING": "Cash register closure",
+    "REBOOTING": "Reboot in progress...",
+    "SHUTTING_DOWN": "Shutdown in progress...",
+    "REFILL": {
+      "LOADING": "Loading",
+      "START": "Start loading",
+      "AMOUNT": "Amount introduced",
+      "STOP": "Stop loading"
+    },
+    "WITHDRAWAL": {
+      "TITLE": "Secure withdrawal",
+      "NOCODE": "The withdrawal code is not defined! "
+    },
+    "SAV": {
+      "TITLE": "After-sales service / Technical support"
+    }
+  },
+  "CALCULATOR": {
+    "SEND": "Send"
+  },
+  "update": {
+    "title": "Update available",
+    "new": "A new version of the application is available",
+    "btn": "To update"
+  },
+  "HEALTH": {
+    "TICKET": "Tickets",
+    "MONNEY": "Pieces"
+  },
+  "WITHDRAWAL": {
+    "TITLE": "Cash withdrawal",
+    "DESC": "Please fill in the necessary information to make a withdrawal.",
+    "AMOUNT": "Amount",
+    "CODE": "Withdrawal code",
+    "ENTER": "Enter the code",
+    "COMMENT": "Proof",
+    "LIMIT": "Daily limit",
+    "ALREADY": "Already removed",
+    "REST": "Max remaining",
+    "CONFIRM": "Confirm withdrawal",
+    "LIMITREACH": "Daily limit reached! ",
+    "INCORRECTAMOUNT": "Please enter a valid amount.",
+    "WRONGCODE": "Incorrect code. ",
+    "ERROR": "Error during withdrawal. "
+  },
+  "PAYMENT": {
+    "ONCOURSE": "Payment in progress",
+    "ASKED": "Amount requested",
+    "INSERED": "Amount inserted",
+    "CANCEL": "Cancel payment"
+  },
+  "LOGS": {
+    "TITLE": "Delete history?",
+    "DESC": "Do you want to delete all saved payment transactions?",
+    "TOTAL": "Total transactions",
+    "TRANSACTIONS": "transactions)",
+    "EMPTY": "No payments recorded.",
+    "AMOUNT": "Total"
+  },
+  "DOOR": {
+    "TITLE": "Opening the door",
+    "DESC": "Please enter the access code to open the coin door.",
+    "CODE": "Security code",
+    "ENTER": "Enter the code",
+    "OPEN": "Open the door",
+    "INCORRECTCODE": "Incorrect code. ",
+    "ERROR": "Error opening the door."
+  },
+  "IP": {
+    "TITLE": "Initial setup",
+    "DESC": "Please enter the IP address of the coin mechanism before using the application.",
+    "ADDRESS": "Coin Mechanist IP Address",
+    "INVALID": "Invalid IP address"
+  },
+  "CLOSING": {
+    "TITLE": "Cash register closure",
+    "DESC": "Do you want to start closing the cash register?"
+  },
+  "ERROR": {
+    "MONNAYEUR": "Coin changer unreachable",
+    "AMOUNT": "'Invalid amount. ",
+    "HEADER": "System error"
+  },
+  "BLOCKER": {
+    "TITLE": "Unsupported device",
+    "DESC": "This application can only be used on tablet or laptop."
+  },
+  "FEATURES": {
+    "HOOPER": {
+      "TITLE": "Hooper",
+      "DESC": "Enable hooper content detail display"
+    },
+    "RECYCLER": {
+      "TITLE": "Recycler",
+      "DESC": "Enable display of recycler content details"
+    }
+  },
+  "ACCESS": {
+    "OPENDOOR": {
+      "TITLE": "Door opening code",
+      "DESC": "Coin mechanism door opening code"
+    },
+    "WITHDRAWAL": {
+      "TITLE": "Withdrawal code",
+      "DESC": "Code required to withdraw money from the coin mechanism",
+      "LIMIT": {
+        "TITLE": "Daily withdrawal limit",
+        "DESC": "Daily withdrawal limit authorized"
+      }
+    },
+    "LOGS": {
+      "TITLE": "Payment log access code",
+      "DESC": "Code required to display the coin changer payment logs",
+      "CLEAN": {
+        "TITLE": "Access code for cleaning payment logs",
+        "DESC": "Code needed to clean the coin mechanism payment logs"
+      }
+    }
+  }
+}

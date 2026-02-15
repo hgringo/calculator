@@ -1,0 +1,50 @@
+<p-dialog 
+  header="{{ 'ERROR.HEADER' | translate }}"
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="true"
+  [dismissableMask]="true"
+  [style]="{ width: '500px' }"
+  (onHide)="clearAll()"
+>
+
+  @if (errors.length) {
+    <div class="lines">
+      @for (e of errors; track e) {
+        <div class="line">
+          <div class="line-header">
+            <span class="timestamp">
+              {{ e.timestamp | date:'dd/MM/yyyy HH:mm' }}
+            </span>
+            <span class="type">[{{ e.type }}]</span>
+            <span class="code" *ngIf="e.code">({{ e.code }})</span>
+          </div>
+
+          <div class="message">
+            {{ e.message }}
+          </div>
+
+          <button 
+            pButton 
+            type="button" 
+            label="{{ 'CLOSE' | translate }}"
+            severity="danger"
+            size="small"
+            (click)="remove(e)">
+          </button>
+        </div>
+      }
+    </div>
+  }
+
+  <ng-template pTemplate="footer">
+    <button 
+      pButton 
+      type="button" 
+      label="{{ 'CLOSEALL' | translate }}"
+      severity="secondary"
+      (click)="clearAll()">
+    </button>
+  </ng-template>
+
+</p-dialog>

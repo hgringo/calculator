@@ -1,0 +1,61 @@
+.withdrawal-modal {
+  padding: 25px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.header p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Form */
+.form {
+  margin-top: 25px;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input,
+textarea {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Error */
+.error {
+  display: block;
+  margin-top: 10px;
+  color: red;
+  font-size: 13px;
+}
+
+/* Buttons */
+.actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+p-button {
+  min-width: 160px;
+}

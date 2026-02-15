@@ -1,0 +1,120 @@
+.install-container {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #f8fafc, #eef2f7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* card */
+.card {
+  width: 420px;
+  max-width: 92vw;
+  background: white;
+  border-radius: 26px;
+  padding: 36px 26px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+/* ================= LOGO FIX ================= */
+/* taille responsive mais jamais énorme */
+.logo {
+  width: clamp(90px, 22vw, 140px);
+  height: auto;
+  max-height: 140px;
+  margin-bottom: 18px;
+  opacity: .95;
+}
+
+/* subtitle */
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 26px;
+  font-size: 15px;
+}
+
+/* input */
+input {
+  width: 100%;
+  font-size: 26px;
+  padding: 16px;
+  text-align: center;
+  border-radius: 14px;
+  border: 2px solid #e5e7eb;
+  outline: none;
+  transition: .2s;
+  letter-spacing: 2px;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+
+/* bouton actif */
+.install-btn {
+  width: 100%;
+  margin-top: 24px;
+  padding: 18px;
+  font-size: 19px;
+  border-radius: 16px;
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+/* click tactile */
+.install-btn:not(:disabled):active {
+  transform: scale(.96);
+}
+
+/* disabled clair */
+.install-btn:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  filter: grayscale(40%);
+  opacity: 1;
+}
+
+/* ================= TABLETTE ================= */
+@media (min-width: 600px) {
+  .card {
+    width: 480px;
+    padding: 48px 40px;
+  }
+
+  .logo {
+    width: 150px;
+    max-height: 150px;
+  }
+
+  input {
+    font-size: 28px;
+  }
+
+  .install-btn {
+    font-size: 20px;
+  }
+}
+
+/* ================= GRANDE TABLETTE / DESKTOP ================= */
+@media (min-width: 1024px) {
+  .card {
+    width: 520px;
+  }
+
+  .logo {
+    width: 160px;
+    max-height: 160px;
+  }
+}

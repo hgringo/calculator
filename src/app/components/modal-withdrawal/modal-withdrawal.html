@@ -1,0 +1,92 @@
+<div class="withdrawal-modal">
+
+  <!-- Header -->
+  <div class="header">
+    <h2>{{ "WITHDRAWAL.TITLE" | translate }}</h2>
+    <p>
+      {{ "WITHDRAWAL.DESC" | translate }}
+    </p>
+  </div>
+
+  <!-- Form -->
+  <div class="form">
+
+    <!-- Amount -->
+    <div class="field">
+      <label>{{ 'WITHDRAWAL.AMOUNT' | translate }} (€)</label>
+      <input
+        type="number"
+        pInputText
+        [(ngModel)]="amount"
+        (ngModelChange)="onAmountChange($event)"
+        placeholder="Ex : 50"
+        min="1"
+      />
+      @if (amountErrorMessage) {
+        <small class="error">{{ amountErrorMessage }}</small>
+      }
+    </div>
+
+    <!-- Code -->
+    <div class="field">
+      <label>{{ 'WITHDRAWAL.CODE' | translate }}</label>
+      <input
+        type="password"
+        pInputText
+        [(ngModel)]="enteredCode"
+        placeholder="{{ 'WITHDRAWAL.ENTER' | translate}}"
+      />
+      @if (codeErrorMessage) {
+        <small class="error">{{ codeErrorMessage }}</small>
+      }
+    </div>
+
+    <!-- Justification -->
+    <div class="field">
+      <label>{{ 'WITHDRAWAL.COMMENT' | translate}}</label>
+      <textarea
+        pInputTextarea
+        [(ngModel)]="justification"
+        rows="3"
+        placeholder="Ex : Retrait pour maintenance..."
+      ></textarea>
+    </div>
+
+    <div class="field">
+      <small class="info">
+        {{ 'WITHDRAWAL.AVAILABLE_MACHINE' | translate }} : {{ machineAvailable }} € •
+        @if (this.dailyLimit) {
+          {{ 'WITHDRAWAL.LIMIT' | translate}} : {{ dailyLimit }} € •
+          {{ 'WITHDRAWAL.ALREADY' | translate}} : {{ dailyWithdrawn }} € •
+          {{ 'WITHDRAWAL.REST' | translate }} : {{ maxAllowed }} €
+        }
+      </small>
+    </div>
+
+    @if (errorMessage) {
+      <small class="error">{{ errorMessage }}</small>
+    }
+
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+
+    <p-button
+      label="{{ 'CANCEL' | translate}}"
+      icon="pi pi-times"
+      severity="secondary"
+      (onClick)="onCancel()"
+    ></p-button>
+
+    <p-button
+      label="{{ 'WITHDRAWAL.CONFIRM' | translate}}"
+      icon="pi pi-check"
+      severity="success"
+      [disabled]="!amount || !enteredCode || !canSubmit"
+      (onClick)="onConfirm()"
+    ></p-button>
+
+  </div>
+
+</div>

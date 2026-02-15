@@ -1,0 +1,35 @@
+<div class="cash-container">
+
+  <!-- RECYCLER -->
+  <div class="cash-section">
+    <div class="section-header">
+      <span class="section-title">{{ 'HEALTH.TICKET' | translate }}</span>
+    </div>
+
+    <div *ngIf="recyclerItems.length === 0" class="empty-line">—</div>
+
+    <div *ngFor="let item of recyclerItems" class="cash-item" [ngClass]="item.level">
+      <span class="value">{{ item.label }}</span>
+      @if (displayRecycleurDetails) {
+        <span class="badge">{{ item.quantity }}</span>
+      }
+    </div>
+  </div>
+
+  <!-- HOPPER -->
+  <div class="cash-section">
+    <div class="section-header">
+      <span class="section-title">{{ 'HEALTH.MONNEY' | translate }}</span>
+    </div>
+
+    <div *ngIf="hopperItems.length === 0" class="empty-line">—</div>
+
+    <div *ngFor="let item of hopperItems" class="cash-item" [ngClass]="item.level">
+      <span class="value">{{ item.label }}</span>
+      @if (displayHooperDetails) {
+        <span class="badge">{{ item.quantity }}</span>
+      }
+    </div>
+  </div>
+
+</div>

@@ -1,130 +1,173 @@
-/* ===== Reset ===== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+/* ===============================
+   LAYOUT FULL HEIGHT
+=============================== */
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden; /* pas de scroll */
-  background: #111827;
-  font-family: Arial, sans-serif;
-}
-
-/* ===== Layout 2 colonnes ===== */
-.app-layout {
-  height: 100dvh; /* viewport dynamique pour mobile */
-  display: grid;
-  grid-template-columns: 20% 80%;
-}
-
-/* ===== Sidebar gauche ===== */
-.sidebar {
-  background: #ffffff; /* blanc */
-  padding: 16px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.sidebar-logo {
-  width: 100%;
-  max-width: 140px;
-}
-
-/* ===== Zone calculatrice ===== */
-.calculator-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* ===== Calculatrice ===== */
 .calculator {
-  flex: 1;
+  height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 12px;
+  gap: 12px;
+  box-sizing: border-box;
+  overflow: hidden; /* empêche le scroll */
 }
 
-/* ===== Écran ===== */
+.calculator.locked {
+  pointer-events: none;
+  opacity: .6;
+}
+
+.calculator.locked .send-btn {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+/* ===============================
+   DISPLAY XXL
+=============================== */
+
 .display {
   width: 100%;
-  min-height: 64px;
-  height: 12dvh;
-  max-height: 110px;
-  font-size: clamp(26px, 6vw, 40px);
+  font-size: clamp(30px, 6vw, 70px);
   text-align: right;
-  padding: 10px 12px;
-  border-radius: 14px;
+  padding: 0 10px;
+  background: transparent;
   border: none;
   outline: none;
-  margin-bottom: 10px;
+  color: var(--text-color);
+  box-shadow: none;
 }
 
-/* ===== Grille calculatrice ===== */
+/* ===============================
+   GRID FULL SPACE
+=============================== */
+
 .grid {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 6px;
 }
 
-/* ===== Boutons ===== */
-button {
+.grid p-button {
   width: 100%;
   height: 100%;
-  font-size: clamp(18px, 4.5vw, 26px);
-  border-radius: 16px;
+}
+
+/* boutons PrimeNG */
+::ng-deep .btn .p-button {
+  width: 100%;
+  height: 100%;
+  font-size: clamp(18px, 4vw, 36px);
+  border-radius: 18px;
   border: none;
-  cursor: pointer;
-  transition: transform 0.05s ease, opacity 0.15s ease;
+  background: #e5e7eb;
+  color: #111827;
 }
 
-button:active {
-  transform: scale(0.96);
+/* effet tactile */
+::ng-deep .btn .p-button:active {
+  transform: scale(0.95);
 }
 
-/* ===== Boutons spéciaux ===== */
-.operator {
+/* ===============================
+   COLORS
+=============================== */
+
+::ng-deep .btn.gray .p-button {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+::ng-deep .btn.operator .p-button {
   background: #374151;
-  color: #ffffff;
+  color: white;
 }
 
-.danger {
+::ng-deep .btn.danger .p-button {
   background: #ef4444;
-  color: #ffffff;
+  color: white;
 }
 
 .equal {
   grid-row: span 2;
+}
+
+::ng-deep .btn.equal .p-button {
   background: #22c55e;
-  color: #ffffff;
+  color: white;
 }
 
 .zero {
   grid-column: span 2;
 }
 
-/* ===== Bouton Envoyer (double taille) ===== */
-.send {
+/* ===============================
+   SEND BUTTON (BOTTOM FULL)
+=============================== */
+
+.send-btn {
   width: 100%;
-  height: clamp(96px, 16dvh, 140px);
-  margin-top: 10px;
-  background: rgb(72, 117, 59);
-  color: #ffffff;
-  border-radius: 20px;
-  font-size: clamp(22px, 5vw, 32px);
-  border: none;
-  cursor: pointer;
 }
 
-.send:hover {
-  opacity: 0.9;
+::ng-deep .send-btn .p-button {
+  width: 100%;
+  height: 12dvh; /* réduit en paysage */
+  min-height: 80px;
+  border-radius: 20px;
+  font-size: clamp(24px, 5vw, 42px);
+  background: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+/* ===============================
+   SPINNER
+=============================== */
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255,255,255,0.25);
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===============================
+   LANDSCAPE SPECIFIC
+=============================== */
+
+@media (orientation: landscape) {
+  .calculator {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .display {
+    font-size: clamp(24px, 5vw, 60px);
+    height: 80px;
+  }
+
+  .grid {
+    gap: 4px;
+  }
+
+  ::ng-deep .btn .p-button {
+    font-size: clamp(16px, 4vw, 32px);
+    border-radius: 16px;
+  }
+
+  ::ng-deep .send-btn .p-button {
+    height: 10dvh;
+    min-height: 60px;
+    font-size: clamp(20px, 4vw, 36px);
+    border-radius: 16px;
+  }
 }

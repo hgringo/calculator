@@ -1,0 +1,133 @@
+<div class="admin-container">
+
+  <!-- Header -->
+  <div class="header">
+
+    <div class="header-text">
+      <h1>{{ 'SUPERADMIN.TITLE' | translate}}</h1>
+      <p>{{ 'SUPERADMIN.DESC' | translate}}</p>
+    </div>
+
+    <p-button 
+      icon="pi pi-times" 
+      label="{{ 'RETURN' | translate }}"
+      severity="secondary" 
+      (click)="goBack()">
+    </p-button>
+  </div>
+
+  @if (!hideMachineConfig) {
+    <section class="section">
+      <h2>{{ 'SUPERADMIN.MONNAYEUR.TITLE' | translate }}</h2>
+      <div class="ip item">
+
+        <div>
+          <label for="ip-input" class="label">{{ 'SUPERADMIN.MONNAYEUR.IP' | translate }}</label>
+          <input 
+            pInputText 
+            id="ip-input" 
+            type="text" 
+            placeholder="Ex : 192.168.1.100" 
+            [(ngModel)]="ipInput" 
+            class="ip-input w-full" />
+        </div>
+          
+        <p-button 
+          class="w-full--btn"
+          icon="pi pi-save" 
+          label="{{ 'SUPERADMIN.MONNAYEUR.UPDATE' | translate }}"
+          (click)="saveIp()" 
+          [disabled]="!ipInput.trim()">
+        </p-button>
+      </div>
+    </section>
+  }
+
+  @if (!hideTheme) {
+    <section class="section">
+    <h2>{{ 'SUPERADMIN.THEME.TITLE' | translate }}</h2>
+
+    <!-- Logos -->
+    <h3>{{ 'SUPERADMIN.THEME.LOGO.CHOOSE' | translate }}</h3>
+
+    <div class="theme-logos">
+      @for (logo of logos; track logo) {
+        <img
+          [src]="logo"
+          class="logo-thumb"
+          [class.selected]="logo === selectedLogo"
+          (click)="selectLogo(logo)"
+        />
+      }
+    </div>
+
+    <!-- Couleurs -->
+    <h3>{{ 'SUPERADMIN.THEME.COLOR' | translate }}</h3>
+
+    <div class="theme-colors">
+      @for (color of colors; track color) {
+        <div
+          class="color-box"
+          [style.background]="color"
+          [class.selected]="color === selectedColor"
+          (click)="selectColor(color)"
+        ></div>
+      }
+    </div>
+
+    <!-- SAV Phone -->
+    <h3>{{ 'SUPERADMIN.THEME.SAV.TITLE' | translate }}</h3>
+
+    <div class="sav-phone">
+
+      <input
+        id="sav-input"
+        type="tel"
+        pInputText
+        [(ngModel)]="savPhone"
+        placeholder="Ex : +32 470 12 34 56"
+      />
+
+      <small class="hint">
+        {{ 'SUPERADMIN.THEME.SAV.HINT' | translate }}
+      </small>
+
+    </div>
+    </section>
+  }
+
+  <!-- FEATURES -->
+  <section class="section">
+    <h2>{{ 'SUPERADMIN.FEATURES.TITLE' | translate }}
+    </h2>
+    @for(feature of features; track feature) {
+      <div class="item feature-item">
+        <div class="feature-text">
+          <h3>{{ feature.title | translate }}</h3>
+          <p class="feature-desc">{{ feature.description | translate }}</p>
+        </div>
+        <p-toggleswitch [(ngModel)]="feature.enabled"></p-toggleswitch>
+      </div>
+    }
+  </section>
+
+  <!-- ACCESS CODE -->
+  <section class="section">
+    <h2>{{ "SUPERADMIN.ACCESS.TITLE" | translate }}</h2>
+    @for (code of accessCodes; track code) {
+      <div class="item access-item">
+        <label>{{ code.title | translate }}</label>
+        <input type="text" pInputText [(ngModel)]="code.value" placeholder="{{ 'WITHDRAWAL.ENTER' | translate }}">
+        @if (code.description) {
+          <small class="access-desc">{{ code.description | translate}}</small>
+        }
+      </div>
+    }
+  </section>
+
+  <div class="footer-buttons">
+    <p-button label="{{ 'CANCEL' | translate }}" severity="secondary" [disabled]="!hasChanges()" (click)="cancel()"></p-button>
+    <p-button label="{{ 'SAVE' | translate }}" icon="pi pi-save" severity="success" [disabled]="!hasChanges()" (click)="save()"></p-button>
+  </div>
+
+</div>

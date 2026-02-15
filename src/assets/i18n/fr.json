@@ -1,0 +1,166 @@
+{
+  "RETURN": "Retour à la calculatrice",
+  "CANCEL": "Annuler",
+  "CLOSE": "Fermer",
+  "CLOSEALL": "Tout fermer",
+  "DELETE": "Supprimer",
+  "SAVE": "Sauvegarder",
+  "CONFIRM": "Confirmer",
+  "SUPERADMIN": {
+    "TITLE": "Administration",
+    "DESC": "Gérez les fonctionnalités et les codes d'accès de votre application.",
+    "MONNAYEUR": {
+      "TITLE": "Configuration du monnayeur",
+      "IP": "Adresse IP du Monnayeur",
+      "UPDATE": "Mettre à jour"
+    },
+    "THEME": {
+      "TITLE": "Thème",
+      "LOGO": {
+        "CHOOSE": "Choisir un logo"
+      },
+      "COLOR": "Couleur principal",
+      "SAV": {
+        "TITLE": "Support technique (SAV)",
+        "HINT": "Ce numéro sera affiché dans l'application pour contacter le support."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Activation des fonctionnalités"
+    },
+    "ACCESS": {
+      "TITLE": "Configuration code d'accès"
+    }
+  },
+  "ADMIN": {
+    "TITLE": "Client",
+    "RESTART": "Redémarrer",
+    "SHUTDOWN": "Eteindre",
+    "OPENDOOR": "Ouvrir la porte",
+    "CASHCLOSING": "Fermeture de caisse",
+    "REBOOTING": "Redémarrage en cours...",
+    "SHUTTING_DOWN": "Arrêt en cours...",
+    "REFILL": {
+      "LOADING": "Chargement",
+      "START": "Démarrer le chargement",
+      "AMOUNT": "Montant introduit",
+      "STOP": "Arrêter le chargement"
+    },
+    "WITHDRAWAL": {
+      "TITLE": "Retrait sécurisé",
+      "NOCODE": "Le code de retrait n’est pas défini ! Les retraits ne sont pas disponibles."
+    },
+    "SAV": {
+      "TITLE": "SAV / Support technique"
+    }
+  },
+  "CALCULATOR": {
+    "SEND": "Envoyer"
+  },
+  "update": {
+      "title": "Mise à jour disponible",
+      "new": "Une nouvelle version de l'application est disponible",
+      "btn": "Mettre à jour"
+  },
+  "HEALTH": {
+    "TICKET": "Billets",
+    "MONNEY": "Pièces"
+  },
+  "WITHDRAWAL": {
+    "TITLE": "Retrait d'argent",
+    "DESC": "Veuillez renseigner les informations nécessaires pour effectuer un retrait.",
+    "AMOUNT": "Montant",
+    "CODE": "Code de retrait",
+    "ENTER": "Entrez le code",
+    "COMMENT": "Justificatif",
+    "LIMIT": "Limite quotidienne",
+    "ALREADY": "Déjà retiré",
+    "REST": "Max restant",
+    "CONFIRM": "Confirmer le retrait",
+    "NOTENOUGH": "Retrait supérieur au montant disponible",
+    "LIMITREACH": "Limite quotidienne atteinte ! Montant max restant",
+    "AVAILABLE_MACHINE": "Disponible dans la machine",
+    "INCORRECTAMOUNT": "Veuillez entrer un montant valide.",
+    "WRONGCODE": "Code incorrect. Retrait refusé.",
+    "ERROR": "Erreur lors du retrait. Veuillez réessayer."
+  },
+  "PAYMENT": {
+    "ONCOURSE": "Paiement en cours",
+    "ASKED": "Montant demandé",
+    "INSERED": "Montant inséré",
+    "REST": "Reste non payé",
+    "CANCEL": "Annuler le paiement"
+  },
+  "LOGS": {
+    "TITLE": "Supprimer l’historique ?",
+    "DESC": "Souhaitez-vous supprimer toutes les transactions de paiement enregistrées ?",
+    "TOTAL": "Total des transactions",
+    "TRANSACTIONS": "transaction(s)",
+    "EMPTY": "Aucun paiement enregistré.",
+    "AMOUNT": "Total"
+  },
+  "DOOR": {
+    "TITLE": "Ouverture de la porte",
+    "DESC": "Veuillez saisir le code d’accès pour ouvrir la porte du monnayeur.",
+    "CODE": "Code de sécurité",
+    "ENTER": "Entrez le code",
+    "OPEN": "Ouvrir la porte",
+    "INCORRECTCODE": "Code incorrect. Veuillez réessayer.",
+    "ERROR": "Erreur lors de l’ouverture de la porte."
+  },
+  "IP":{
+    "TITLE": "Configuration initiale",
+    "DESC": "Veuillez renseigner l’adresse IP du monnayeur avant d’utiliser l’application.",
+    "ADDRESS": "Adresse IP du Monnayeur",
+    "INVALID": "Adresse IP invalide"
+  },
+  "CLOSING": {
+    "TITLE": "Fermeture de caisse",
+    "DESC": "Voulez-vous lancer la fermeture de caisse ?"
+  },
+  "ERROR": {
+    "MONNAYEUR": "Monnayeur injoignable",
+    "AMOUNT": "'Montant invalide. Le montant doit être supérieur à 0.'",
+    "HEADER": "Erreur système"
+  },
+  "BLOCKER": {
+    "TITLE": "Appareil non supporté",
+    "DESC": "Cette application ne peut être utilisée que sur tablette ou ordinateur portable."
+  },
+  "FEATURES": {
+    "HOOPER": {
+      "TITLE": "Hooper",
+      "DESC": "Activer l'affichage du détail du contenu du hooper"
+    },
+    "RECYCLER": {
+      "TITLE": "Recycleur",
+      "DESC": "Activer l'affichage du détail du contenu du recycler"
+    }
+  },
+  "ACCESS": {
+    "ADMIN": {
+      "TITLE": "Code d'accès admin",
+      "DESC": "Code nécessaire pour accéder à l'interface administrateur"
+    },
+    "OPENDOOR": {
+      "TITLE": "Code ouverture porte",
+      "DESC": "Code d'ouverture de la porte du monnayeur"
+    },
+    "WITHDRAWAL": {
+      "TITLE": "Code de retrait",
+      "DESC": "Code nécessaire pour réaliser un retrait d'argent sur le monnayeur",
+      "LIMIT": {
+        "TITLE": "Limite de retrait journalière",
+        "DESC": "Limite journalière de retrait autorisé"
+      }
+    },
+    "LOGS": {
+      "TITLE": "Code d'accès aux logs de paiement",
+      "DESC": "Code nécessaire pour afficher les logs de paiement du monnayeur",
+      "CLEAN": {
+        "TITLE": "Code d'accès aux nettoyage des logs de paiement",
+        "DESC": "Code nécessaire pour nettoyer les logs de paiement du monnayeur"
+      }
+    }
+  }
+}

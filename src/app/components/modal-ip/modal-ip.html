@@ -1,0 +1,41 @@
+<p-dialog
+  [(visible)]="showIpDialog"
+  [modal]="true"
+  [closable]="false"
+  [dismissableMask]="false"
+>
+
+    <div class="information">
+        <h3 class="title">{{ 'IP.TITLE' | translate}}</h3>
+    
+        <p class="subtitle">
+            {{ 'IP.DESC' | translate }}
+        </p>
+    </div>
+
+    <label for="ip-input" class="label">{{ 'IP.ADDRESS' | translate }}</label>
+    <input
+        pInputText
+        id="ip-input"
+        type="text"
+        placeholder="Ex : 192.168.1.100"
+        [(ngModel)]="ipInput"
+        class="ip-input"
+    />
+
+  @if (ipInvalid) {
+      <small class="error-text">
+        {{ 'IP.INVALID' | translate }}
+      </small>
+  }
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      class="w-full btn btn--green"
+      label="{{ 'SAVE' | translate }}"
+      (click)="saveIp()"
+      [disabled]="!ipInput.trim()"
+    ></button>
+  </ng-template>
+</p-dialog>

@@ -1,1 +1,207 @@
-/* You can add global styles to this file, and also import other style files */
+/* =========================================================
+   VARIABLES THEME
+========================================================= */
+
+:root {
+  color-scheme: light;
+  --primary-color: #007ad9;
+  --primary-color-contrast: #ffffff;
+
+  --bg-main: #ffffff;
+  --bg-surface: #f6f7f9;
+  --bg-input: #ffffff;
+
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+
+  --border-color: #e5e7eb;
+  --danger: #e5484d;
+
+  --shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* =========================================================
+   DARK MODE AUTO (SYSTEM)
+========================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    
+    --bg-main: #ffffff;
+    --bg-surface: #f6f7f9;
+    --bg-input: #ffffff;
+
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+
+    --border-color: #e5e7eb;
+    --shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+}
+
+/* =========================================================
+   RESET GLOBAL
+========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: Arial, sans-serif;
+}
+
+/* =========================================================
+   TYPO
+========================================================= */
+
+.title {
+  color: var(--primary-color);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: var(--text-main);
+}
+
+.label {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn {
+  border: 0 !important;
+  padding: 5px !important;
+  font-size: 25px !important;
+  border-radius: 10px;
+}
+
+.btn--green {
+  background: var(--primary-color) !important;
+  color: var(--primary-color-contrast) !important;
+}
+
+/* =========================================================
+   CONTAINERS
+========================================================= */
+
+.background--highlight {
+  background: var(--bg-surface);
+}
+
+.separator {
+  height: 2px;
+  background: var(--border-color);
+  margin: 10px 0;
+}
+
+.separator--high {
+  margin: 25px 0;
+}
+
+/* =========================================================
+   PRIME NG OVERRIDE PRO
+========================================================= */
+
+/* INPUT */
+.p-inputtext,
+.p-dropdown,
+.p-inputnumber,
+.p-password input {
+  background: var(--bg-input) !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* INPUT FOCUS */
+.p-inputtext:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(0,122,217,0.2) !important;
+}
+
+/* DIALOG */
+.p-dialog {
+  background: var(--bg-main);
+  color: var(--text-main);
+  box-shadow: var(--shadow);
+}
+
+/* CARD */
+.p-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+}
+
+/* BUTTON */
+.p-button {
+  background: var(--primary-color);
+  border: none;
+}
+
+/* TABLE */
+.p-datatable {
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+/* DROPDOWN PANEL */
+.p-dropdown-panel {
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+/* BADGE */
+.p-badge {
+  background: var(--primary-color);
+}
+
+/* =========================================================
+   FULLSCREEN DIALOG
+========================================================= */
+
+.p-dialog.full {
+  min-width: 520px !important;
+}
+
+.w-full {
+
+  width: 100% !important;
+
+  &--btn {
+    button {
+      width: 100% !important;
+    }
+  }
+}
+
+
+// =================================
+
+$btn-width: 75px;
+$btn-height: 75px;
+
+.action {
+    width: $btn-width;
+    height: $btn-height;
+    margin-right: 10px;
+
+    .p-ripple.p-button {
+        width: $btn-width;
+        height: $btn-height;
+    }
+}

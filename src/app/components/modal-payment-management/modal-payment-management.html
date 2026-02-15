@@ -1,0 +1,51 @@
+@if (paymentState) {
+  <div class="payment-container">
+  
+    <!-- Carte infos paiement -->
+    <div class="payment-card">
+  
+      <h2 class="payment-title">
+        <i class="pi pi-credit-card"></i>
+        {{ 'PAYMENT.ONCOURSE' | translate }}
+      </h2>
+  
+      <div class="payment-details">
+  
+        <div class="payment-row">
+          <span class="label">{{ "PAYMENT.ASKED" | translate}}</span>
+          <span class="value">
+            {{ paymentState.payment_details.amount / 100 | number:'1.2-2' }} €
+          </span>
+        </div>
+  
+        <div class="payment-row">
+          <span class="label">{{ 'PAYMENT.INSERED' | translate}}</span>
+          <span class="value inserted">
+            {{ paymentState.payment_details.inserted / 100 | number:'1.2-2' }} €
+          </span>
+        </div>
+
+        <div class="payment-row">
+          <span class="label">{{ 'PAYMENT.REST' | translate}}</span>
+          <span class="value inserted">
+            {{ paymentState.payment_details.rest / 100 | number:'1.2-2' }} €
+          </span>
+        </div>        
+        
+      </div>
+  
+    </div>
+  
+    <!-- Actions -->
+    <div class="withdrawal-actions">
+      <p-button
+        class="w-full w-full--btn"
+        label="{{ 'PAYMENT.CANCEL' | translate }}"
+        icon="pi pi-times"
+        severity="danger"
+        (click)="onCancelPayment()"
+      ></p-button>
+    </div>
+  
+  </div>
+}

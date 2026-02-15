@@ -1,0 +1,92 @@
+.cash-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 14px;
+}
+
+/* ===== Section ===== */
+.cash-section {
+  background: #f9fafb;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #e5e7eb;
+}
+
+/* header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* dot status */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.status-dot.error {
+  background: #ef4444;
+}
+
+/* item line */
+.cash-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+/* valeur */
+.value {
+  font-weight: 500;
+}
+
+/* badge quantité */
+.badge {
+  background: #111827;
+  color: white;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 13px;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* vide */
+.empty-line {
+  opacity: 0.5;
+  font-style: italic;
+}
+
+
+.cash-item.ok {
+  background-color: #d4edda; // vert clair
+  color: #155724;
+}
+
+.cash-item.low {
+  background-color: #fff3cd; // orange clair
+  color: #856404;
+}
+
+.cash-item.empty {
+  background-color: #f8d7da; // rouge clair
+  color: #721c24;
+}
+
+.status-dot.error {
+  background-color: red;
+}

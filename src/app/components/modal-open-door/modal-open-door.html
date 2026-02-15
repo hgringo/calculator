@@ -1,0 +1,52 @@
+<div class="door-modal">
+
+  <!-- Title -->
+  <div class="header">
+    <h2>{{ 'DOOR.TITLE' | translate }}</h2>
+    <p>
+      {{ 'DOOR.DESC' | translate }}
+    </p>
+  </div>
+
+  <!-- Input -->
+  <div class="form">
+
+    <label for="code">{{ 'DOOR.CODE' | translate }}</label>
+
+    <input
+      id="code"
+      type="password"
+      pInputText
+      [(ngModel)]="enteredCode"
+      placeholder="{{ 'DOOR.ENTER' | translate }}"
+      autocomplete="off"
+    />
+
+    <!-- Error -->
+    @if (errorMessage) {
+      <small class="error">{{ errorMessage }}</small>
+    }
+
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+
+    <p-button
+      label="{{ 'CANCEL' | translate }}"
+      icon="pi pi-times"
+      severity="secondary"
+      (onClick)="onCancel()"
+    ></p-button>
+
+    <p-button
+      label="{{ 'DOOR.OPEN' | translate }}"
+      icon="pi pi-lock-open"
+      severity="success"
+      [disabled]="!enteredCode"
+      (onClick)="onConfirm()"
+    ></p-button>
+
+  </div>
+
+</div>

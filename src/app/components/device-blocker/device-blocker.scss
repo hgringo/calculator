@@ -1,0 +1,21 @@
+.device-blocker {
+  position: fixed;
+  inset: 0;
+  background: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  text-align: center;
+  padding: 20px;
+}
+
+.content {
+  max-width: 400px;
+}
+
+.icon {
+  font-size: 60px;
+  color: #dc3545;
+  margin-bottom: 20px;
+}

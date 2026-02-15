@@ -1,0 +1,39 @@
+<p-dialog 
+  [(visible)]="showUpdateDialog"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="update-dialog"
+>
+
+  <div class="update-container">
+
+    <div class="update-header">
+      <i class="pi pi-refresh update-icon"></i>
+      <h2>{{ 'update.title' | translate }}</h2>
+    </div>
+
+    <div class="update-body">
+      <p class="subtitle">
+        {{ 'update.new' | translate }}
+      </p>
+
+      <div class="version-badge">
+        Version {{ version }}
+      </div>
+    </div>
+
+    <div class="update-footer">
+      <button 
+        pButton 
+        type="button"
+        label="{{ 'update.btn' | translate }}"
+        (click)="updateApplication()"
+        class="update-button">
+      </button>
+    </div>
+
+  </div>
+
+</p-dialog>

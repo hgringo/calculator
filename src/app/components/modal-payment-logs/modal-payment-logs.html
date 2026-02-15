@@ -1,0 +1,47 @@
+<div class="log-card">
+
+  <!-- Header -->
+  <div class="log-header">
+    <h2>{{ 'LOGS.TOTAL' | translate }}</h2>
+
+    @if (logs.length > 0) {
+        <span class="log-count">
+           {{ logs.length }} {{ 'LOGS.TRANSACTIONS' | translate }}
+        </span>
+    }
+  </div>
+
+  <!-- Body -->
+  <div class="log-body">
+
+    <!-- Aucun paiement -->
+    @if (logs.length === 0) {
+      <p class="empty">
+        {{ 'LOGS.EMPTY' | translate }}
+      </p>
+    }
+
+    <!-- Liste -->
+    @for (log of logs; track log) {
+      <div class="log-line">
+        <span class="date">
+          {{ log.timestamp | date: 'dd/MM/yyyy HH:mm' }}
+        </span>
+
+        <span class="amount">
+          {{ log.amount }} €
+        </span>
+      </div>
+    }
+
+  </div>
+
+  <!-- Footer total -->
+  <div class="log-footer">
+    <span>{{ 'LOGS.AMOUNT' | translate }}</span>
+    <span class="total">
+      {{ total }} €
+    </span>
+  </div>
+
+</div>

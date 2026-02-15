@@ -1,0 +1,26 @@
+<div class="confirm-dialog">
+
+  <div class="message">
+    <h3>{{ 'CLOSING.TITLE' | translate }}</h3>
+    <p>{{ 'CLOSING.DESC' | translate }}</p>
+  </div>
+
+  <div class="actions">
+    <p-button
+      label="{{ 'CANCEL' | translate }}"
+      severity="secondary"
+      icon="pi pi-times"
+      (onClick)="onCancel()"
+      [disabled]="loading"
+    />
+
+    <p-button
+      label="{{ 'CONFIRM' | translate }}"
+      severity="success"
+      icon="pi pi-check"
+      (onClick)="onConfirm()"
+      [loading]="loading"
+    />
+  </div>
+
+</div>

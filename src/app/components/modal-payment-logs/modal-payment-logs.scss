@@ -1,0 +1,89 @@
+.log-card {
+  width: 100%;
+  max-width: 450px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+/* Header */
+.log-header {
+  padding: 18px 20px;
+  background: var(--primary-color, #007ad9);
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.log-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.log-count {
+  margin-left: 10px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+/* Body */
+.log-body {
+  padding: 15px 20px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* Empty */
+.empty {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 20px 0;
+}
+
+/* Lines */
+.log-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+
+  border-bottom: 1px solid #eee;
+}
+
+.log-line:last-child {
+  border-bottom: none;
+}
+
+.date {
+  font-size: 13px;
+  color: #555;
+}
+
+.amount {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* Footer */
+.log-footer {
+  padding: 15px 20px;
+  background: #f8f8f8;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-weight: bold;
+}
+
+.total {
+  font-size: 18px;
+  color: var(--primary-color, #007ad9);
+}

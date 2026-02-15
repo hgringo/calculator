@@ -1,0 +1,85 @@
+.payment-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  padding: 20px;
+}
+
+/* Carte principale */
+.payment-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid var(--primary-color);
+}
+
+/* Titre */
+.payment-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #222;
+
+  i {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+  }
+}
+
+/* Détails */
+.payment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8f8f8;
+}
+
+/* Labels */
+.label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Valeurs */
+.value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #222;
+}
+
+/* Montant inséré */
+.inserted {
+  color: var(--primary-color);
+}
+
+/* Ligne reste à payer mise en avant */
+.remaining {
+  background: rgba(255, 80, 80, 0.08);
+}
+
+.rest {
+  color: #d60000;
+  font-size: 1.2rem;
+}
+
+/* Actions */
+.withdrawal-actions {
+  width: 100%;
+  max-width: 420px;
+}

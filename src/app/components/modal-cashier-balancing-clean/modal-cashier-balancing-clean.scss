@@ -1,0 +1,31 @@
+.confirm-dialog {
+  padding: 25px;
+  text-align: center;
+}
+
+/* Texte */
+.message h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.message p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Boutons */
+.actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+p-button {
+  min-width: 130px;
+}

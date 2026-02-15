@@ -1,0 +1,57 @@
+.door-modal {
+  padding: 25px;
+  text-align: center;
+}
+
+/* Header */
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+
+.header p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Form */
+.form {
+  margin-top: 25px;
+  text-align: left;
+}
+
+label {
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Error */
+.error {
+  display: block;
+  margin-top: 8px;
+  color: red;
+  font-size: 13px;
+}
+
+/* Buttons */
+.actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+p-button {
+  min-width: 150px;
+}

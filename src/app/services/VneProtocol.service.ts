@@ -6,6 +6,7 @@ import { VneMessCode } from "../enum/VneMessCode";
 import { VneRequestStatus } from "../enum/VneRequestStatus";
 import { VneBaseRequest, VneBaseResponse } from "../types/VneBaseRequest";
 import { VnePaymentPendingResponse } from "../types/VnePaymentRequest";
+import { CashErrorService } from "./error.service";
 
 @Injectable({
   providedIn: "root"
@@ -13,6 +14,7 @@ import { VnePaymentPendingResponse } from "../types/VnePaymentRequest";
 export class VneAutomaticCashService {
 
   private http = inject(HttpClient);
+  private cashErrorService = inject(CashErrorService);
 
   private getBaseUrl(): string {
 
@@ -37,6 +39,12 @@ export class VneAutomaticCashService {
       timeout(5000),
       catchError(err => {
         console.error("Communication error", err);
+        this.cashErrorService.update([{
+          type: 'NETWORK',
+          code: err.status ? err.status.toString() : 'UNKNOWN',
+          message: 'Machine inaccessible ou hors réseau',
+          timestamp: Date.now()
+        }]);
         return throwError(() => err);
       })
     );
@@ -65,7 +73,7 @@ export class VneAutomaticCashService {
     });
   }
 
-  public cancelPayment(id: string) {
+  public cancelPayment(id: string): Observable<VnePaymentPendingResponse> {
     return this.sendCommand(
       {
         tipo: 3,
@@ -87,6 +95,15 @@ export class VneAutomaticCashService {
       opName,
       operatore: "ID_OPERATORE",
       commento
+    });
+  }
+
+  public pollingWithdrawal(id: string, opName?: string) {
+
+    return this.sendCommand({
+      tipo: 11,
+      id,
+      opName
     });
   }
 

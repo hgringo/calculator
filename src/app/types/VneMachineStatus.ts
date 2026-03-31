@@ -1,6 +1,6 @@
 interface CashItem {
-  label: string;     // exemple "10€" ou "0.50€"
-  quantity: number;  // nombre de billets/pièces
+  label: string;
+  quantity: number;
   level: 'ok' | 'low' | 'empty' | 'error';
 }
 

@@ -1,42 +1,53 @@
-@if (!showSplash && !showInstall) {
-  <div class="app-layout">
+ @if (isDownloadRoute) {
+   <div>
+     <router-outlet></router-outlet>
+   </div>
+ }
+@else {
+  <!-- Layout normal -->
   
-    <!-- Sidebar gauche -->
-    <aside class="sidebar">
-      <div class="sidebar-top">
-        <img [routerLink]="['/']" [src]="logoPath" class="sidebar-logo" />
+    <div class="app-layout">
   
-        <div class="w-full">
-          <monnayeur-health></monnayeur-health>
+      <!-- Left Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <img [routerLink]="['/']" [src]="logoPath" class="sidebar-logo" />
+  
+          <div class="w-full">
+            <monnayeur-health></monnayeur-health>
+          </div>
+  
+          <p-button label="Menu" severity="success" class="w-full--btn menu" [routerLink]="['employee']"></p-button>
+  
+          <span class="separator separator--high"></span>
         </div>
   
-        <p-button label="Menu" class="w-full--btn menu" [routerLink]="['employee']"></p-button>
+        <div class="sidebar-bottom w-full">
+          <div class="section-ip background--highlight">
+            <span class="info">IP Monnayeur</span>
+            <span class="font--bold text--green">{{ deviceIP }}</span>
+          </div>
   
-        <span class="separator separator--high"></span>
-      </div>
-  
-      <div class="sidebar-bottom w-full">
-        <div class="section-ip background--highlight">
-          <span class="info">IP Monnayeur</span>
-          <span class="font--bold text--green">{{ deviceIP }}</span>
+          <language-switcher></language-switcher>
+
+          <div class="version">
+            Version <span>{{version}}</span>
+          </div>
         </div>
+      </aside>
   
-        <language-switcher></language-switcher>
-      </div>
-    </aside>
+      <!-- Content -->
+      <main class="content" [class.scrollable]="isContentScrollable">
+        <error-banner></error-banner>
+        <device-blocker></device-blocker>
+        <update-app></update-app>
+        <router-outlet></router-outlet>
+      </main>
   
-    <!-- Contenu -->
-    <main class="content">
-      <error-banner></error-banner>
-      <device-blocker></device-blocker>
-  
-      <update-app></update-app>
-      <router-outlet></router-outlet>
-    </main>
-  
-  </div>
+    </div>
 }
 
+<!-- Splash Screen -->
 @if (showSplash) {
   <splash-screen
     [duration]="3000"
@@ -44,6 +55,12 @@
   </splash-screen>
 }
 
-@if (showInstall) {
-  <pwa-install></pwa-install>
+@if (loading$ | async) {
+  <div class="system-overlay">
+    <div class="overlay-content">
+      <img src="assets/pwa/logo.svg" class="overlay-logo" />
+      <p-progressSpinner></p-progressSpinner>
+      <div class="text">{{ (message$ | async) | translate }}</div>
+    </div>
+  </div>
 }

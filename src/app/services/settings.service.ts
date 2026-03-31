@@ -11,12 +11,23 @@ interface AccessCodeStorage {
   value: string;
 }
 
+interface ReceiptSettings {
+  enabled: boolean;
+  email: string;
+}
+
+interface SocietySettings {
+  name: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SettingsService {
 
   private FEATURES_KEY = 'superadmin_features';
   private ACCESS_CODES_KEY = 'superadmin_access_codes';
-
+  private RECEIPT_KEY = 'superadmin_receipt_settings';
+  private SOCIETY_KEY = 'superadmin_society_settings';
+ 
   private defaultFeatures: Feature[] = [
      { id: 'hooper', title: "FEATURES.HOOPER.TITLE", description: "FEATURES.HOOPER.DESC", enabled: false },
     { id: 'recycleur', title: 'FEATURES.RECYCLER.TITLE', description: "FEATURES.RECYCLER.DESC", enabled: false },
@@ -27,7 +38,6 @@ export class SettingsService {
     { id: 'open_code', title: 'ACCESS.OPENDOOR.TITLE', value: '', description: "ACCESS.OPENDOOR.DESC" },
     { id: 'withdrawal_code', title: 'ACCESS.WITHDRAWAL.TITLE', value: '', description: "ACCESS.WITHDRAWAL.DESC" },
     { id: 'access_log_code', title: 'ACCESS.LOGS.TITLE', value: '', description: "ACCESS.LOGS.DESC" },
-    { id: 'access_clean_code', title: 'ACCESS.LOGS.CLEAN.TITLE', value: '', description: "ACCESS.LOGS.CLEAN.DESC" },
     { id: 'limit_withdrawal', title: 'ACCESS.WITHDRAWAL.LIMIT.TITLE', value: '', description: "ACCESS.WITHDRAWAL.LIMIT.DESC" }
   ];
 
@@ -94,6 +104,41 @@ export class SettingsService {
 
   getAccessCode(id: string): AccessCode | undefined {
     return this.accessCodesSubject.getValue().find(c => c.id === id);
+  }
+
+  saveReceiptSettings(settings: ReceiptSettings) {
+    localStorage.setItem(this.RECEIPT_KEY, JSON.stringify(settings));
+  }
+
+  loadReceiptSettings(): ReceiptSettings {
+    
+    const stored = localStorage.getItem(this.RECEIPT_KEY);
+
+    if (!stored) {
+      return {
+        enabled: false,
+        email: ''
+      };
+    }
+
+    return JSON.parse(stored);
+  }
+
+  saveSocietySettings(settings: SocietySettings) {
+    localStorage.setItem(this.SOCIETY_KEY, JSON.stringify(settings));
+  }
+
+  loadSocietySettings(): SocietySettings {
+    
+    const stored = localStorage.getItem(this.SOCIETY_KEY);
+
+    if (!stored) {
+      return {
+        name: ''
+      };
+    }
+
+    return JSON.parse(stored);
   }
 
 }

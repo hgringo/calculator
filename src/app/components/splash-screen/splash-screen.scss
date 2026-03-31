@@ -11,7 +11,7 @@
 }
 
 .logo {
-  width: clamp(140px, 25vw, 260px);
+  width: 70vw;
   opacity: 0;
   transform: scale(.85);
   animation: logoIn .8s ease forwards;

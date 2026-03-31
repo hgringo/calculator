@@ -1,18 +1,18 @@
 {
-  "RETURN": "Terug naar rekenmachine",
+  "RETURN": "Terug",
   "CANCEL": "Annuleren",
-  "CLOSE": "Dichtbij",
-  "CLOSEALL": "Sluit alles",
-  "DELETE": "VERWIJDEREN",
-  "SAVE": "Om te beschermen",
+  "CLOSE": "Sluiten",
+  "CLOSEALL": "Alles sluiten",
+  "DELETE": "Verwijderen",
+  "SAVE": "Opslaan",
   "CONFIRM": "Bevestigen",
   "SUPERADMIN": {
-    "TITLE": "Administratie",
-    "DESC": "Beheer de functies en inloggegevens van uw app.",
+    "TITLE": "Beheer",
+    "DESC": "Beheer de functies en toegangscodes van uw applicatie.",
     "MONNAYEUR": {
-      "TITLE": "Configuratie van muntacceptor",
-      "IP": "IP-adres van muntautomaat",
-      "UPDATE": "Om te updaten"
+      "TITLE": "Configuratie geldmachine",
+      "IP": "IP-adres geldmachine",
+      "UPDATE": "Bijwerken"
     },
     "THEME": {
       "TITLE": "Thema",
@@ -21,140 +21,194 @@
       },
       "COLOR": "Hoofdkleur",
       "SAV": {
-        "TITLE": "Technische ondersteuning (after-sales service)",
-        "HINT": "Dit nummer wordt weergegeven in de applicatie om contact op te nemen met de ondersteuning."
+        "TITLE": "Technische ondersteuning (SAV)",
+        "HINT": "Dit nummer wordt in de applicatie weergegeven om contact op te nemen met de ondersteuning."
       }
     },
     "FEATURES": {
-      "TITLE": "Functies inschakelen"
+      "TITLE": "Functies activeren"
     },
     "ACCESS": {
-      "TITLE": "Configuratie van toegangscode"
+      "TITLE": "Toegangscode configuratie"
+    },
+    "RECEIPT": {
+      "TITLE": "Betalingsbewijs",
+      "DESC": "Een betalingsbewijs koppelen aan het betalingslogboek"
+    },
+    "LOGS": {
+      "TITLE": "Exporteren",
+      "EMAIL": "Bestemmings e-mailadres"
+    },
+    "SOCIETY": {
+      "TITLE": "Entiteitsgegevens",
+      "NAME": "Naam van de entiteit"
     }
   },
   "ADMIN": {
     "TITLE": "Klant",
-    "RESTART": "Opnieuw opstarten",
-    "SHUTDOWN": "Schakel uit",
-    "OPENDOOR": "Open de deur",
-    "CASHCLOSING": "Sluiting kassa",
-    "REBOOTING": "Opnieuw opstarten wordt uitgevoerd...",
-    "SHUTTING_DOWN": "Er wordt geblust...",
+    "RESTART": "Herstarten",
+    "SHUTDOWN": "Uitschakelen",
+    "OPENDOOR": "Deur openen",
+    "CASHCLOSING": "Kassaafsluiting",
+    "REBOOTING": "Herstarten...",
+    "SHUTTING_DOWN": "Uitschakelen...",
     "REFILL": {
       "LOADING": "Laden",
-      "START": "Begin met laden",
-      "AMOUNT": "Geïntroduceerd bedrag",
-      "STOP": "Stop met laden"
+      "START": "Laden starten",
+      "AMOUNT": "Ingevoerd bedrag",
+      "STOP": "Laden stoppen"
     },
     "WITHDRAWAL": {
       "TITLE": "Veilige opname",
-      "NOCODE": "De opnamecode is niet gedefinieerd! Opnames zijn niet mogelijk.",
-      "": ""
+      "NOCODE": "De opnamecode is niet ingesteld! Opnames zijn niet beschikbaar."
     },
     "SAV": {
-      "TITLE": "After-sales service / Technische ondersteuning"
+      "TITLE": "SAV / Technische ondersteuning"
     }
   },
   "CALCULATOR": {
-    "SEND": "Versturen"
+    "SEND": "Verzenden"
   },
   "update": {
     "title": "Update beschikbaar",
     "new": "Er is een nieuwe versie van de applicatie beschikbaar",
-    "btn": "Om te updaten"
+    "btn": "Bijwerken"
   },
   "HEALTH": {
-    "TICKET": "Kaartjes",
-    "MONNEY": "Stukken"
+    "TICKET": "Biljetten",
+    "MONNEY": "Munten"
   },
   "WITHDRAWAL": {
     "TITLE": "Geldopname",
-    "DESC": "Vul de benodigde informatie in om een ​​opname te maken.",
-    "AMOUNT": "Hoeveelheid",
+    "DESC": "Vul de vereiste gegevens in om een opname uit te voeren.",
+    "AMOUNT": "Bedrag",
     "CODE": "Opnamecode",
     "ENTER": "Voer de code in",
-    "COMMENT": "Bewijs",
+    "COMMENT": "Betalingsbewijs",
     "LIMIT": "Dagelijkse limiet",
-    "ALREADY": "Al verwijderd",
-    "REST": "Maximaal resterend",
-    "CONFIRM": "Bevestig de opname",
-    "LIMITREACH": "Daglimiet bereikt! Maximaal resterend bedrag",
+    "ALREADY": "Al opgenomen",
+    "REST": "Max. resterend",
+    "CONFIRM": "Opname bevestigen",
+    "NOTENOUGH": "Opname overschrijdt het beschikbare bedrag",
+    "LIMITREACH": "Dagelijkse limiet bereikt! Maximaal resterend bedrag",
+    "AVAILABLE_MACHINE": "Beschikbaar in de machine",
     "INCORRECTAMOUNT": "Voer een geldig bedrag in.",
-    "WRONGCODE": "Onjuiste code. Intrekking geweigerd.",
-    "ERROR": "Fout tijdens opname. Probeer het opnieuw."
+    "WRONGCODE": "Onjuiste code. Opname geweigerd.",
+    "ERROR": "Fout bij opname. Probeer opnieuw."
   },
   "PAYMENT": {
-    "ONCOURSE": "Betaling in behandeling",
+    "ONCOURSE": "Betaling bezig",
     "ASKED": "Gevraagd bedrag",
-    "INSERED": "Bedrag ingevoegd",
-    "CANCEL": "Betaling annuleren"
+    "INSERED": "Ingevoerd bedrag",
+    "REST": "Resterend bedrag",
+    "ALREADY_RETURNED": "Teruggegeven bedrag",
+    "CANCEL": "Betaling annuleren",
+    "TORETURN": "Terug te geven bedrag",
+    "INSUFFICIENT_MACHINE_BALANCE": "Het saldo van de machine is onvoldoende om wisselgeld terug te geven"
   },
   "LOGS": {
     "TITLE": "Geschiedenis verwijderen?",
-    "DESC": "Wilt u alle opgeslagen betaaltransacties verwijderen?",
-    "TOTAL": "Totaal aantal transacties",
-    "TRANSACTIONS": "transacties)",
+    "DESC": "Wilt u alle geregistreerde betalingstransacties verwijderen?",
+    "TOTAL": "Totaal transacties",
+    "TRANSACTIONS": "transactie(s)",
     "EMPTY": "Geen betalingen geregistreerd.",
-    "AMOUNT": "Totaal"
+    "AMOUNT": "Totaal",
+    "CLEAN": "Wissen",
+    "EXPORT": "Exporteren + Wissen",
+    "SEND": "Verzenden + Wissen",
+    "SENDING": "Exporteren bezig"
   },
   "DOOR": {
-    "TITLE": "De deur openen",
-    "DESC": "Voer de toegangscode in om de muntdeur te openen.",
-    "CODE": "Beveiligingscode",
+    "TITLE": "Deur openen",
+    "DESC": "Voer de toegangscode in om de deur van de geldmachine te openen.",
+    "CODE": "Veiligheidscode",
     "ENTER": "Voer de code in",
-    "OPEN": "Open de deur",
-    "INCORRECTCODE": "Onjuiste code. Probeer het opnieuw.",
+    "OPEN": "Deur openen",
+    "INCORRECTCODE": "Onjuiste code. Probeer opnieuw.",
     "ERROR": "Fout bij het openen van de deur."
   },
   "IP": {
-    "TITLE": "Initiële installatie",
-    "DESC": "Voer het IP-adres van het muntmechanisme in voordat u de applicatie gebruikt.",
-    "ADDRESS": "IP-adres van muntautomaat",
+    "TITLE": "Eerste installatie",
+    "DESC": "Voer het IP-adres van de geldmachine in voordat u de applicatie gebruikt.",
+    "ADDRESS": "IP-adres geldmachine",
     "INVALID": "Ongeldig IP-adres"
   },
   "CLOSING": {
-    "TITLE": "Sluiting kassa",
-    "DESC": "Wilt u beginnen met het sluiten van de kassa?"
+    "TITLE": "Kassaafsluiting",
+    "DESC": "Wilt u de kassaafsluiting starten?"
   },
   "ERROR": {
-    "MONNAYEUR": "Muntwisselaar onbereikbaar",
-    "AMOUNT": "'Ongeldig bedrag. Het bedrag moet groter zijn dan 0.'",
+    "MONNAYEUR": "Geldmachine niet bereikbaar",
+    "AMOUNT": "Ongeldig bedrag. Het bedrag moet groter zijn dan 0.",
     "HEADER": "Systeemfout"
   },
   "BLOCKER": {
-    "TITLE": "Niet-ondersteund apparaat",
-    "DESC": "Deze applicatie is alleen te gebruiken op tablet of laptop."
+    "TITLE": "Apparaat niet ondersteund",
+    "DESC": "Deze applicatie kan alleen worden gebruikt op een tablet of laptop."
   },
   "FEATURES": {
     "HOOPER": {
-      "TITLE": "Hooper",
-      "DESC": "Schakel detailweergave van de hooper-inhoud in"
+      "TITLE": "Hopper",
+      "DESC": "De weergave van hopperinhoud inschakelen"
     },
     "RECYCLER": {
       "TITLE": "Recycler",
-      "DESC": "Schakel de weergave van inhoudsdetails van de recycler in"
+      "DESC": "De weergave van recyclerinhoud inschakelen"
     }
   },
   "ACCESS": {
+    "ADMIN": {
+      "TITLE": "Admin toegangscode",
+      "DESC": "Code vereist voor toegang tot de beheerdersinterface"
+    },
     "OPENDOOR": {
-      "TITLE": "Deuropeningscode",
-      "DESC": "Deuropeningscode van het muntmechanisme"
+      "TITLE": "Code deur openen",
+      "DESC": "Code om de deur van de geldmachine te openen"
     },
     "WITHDRAWAL": {
       "TITLE": "Opnamecode",
-      "DESC": "Code vereist om geld uit het muntmechanisme op te nemen",
+      "DESC": "Code vereist om een geldopname uit te voeren",
       "LIMIT": {
         "TITLE": "Dagelijkse opnamelimiet",
-        "DESC": "Dagelijkse opnamelimiet toegestaan"
+        "DESC": "Maximaal toegestaan dagelijks opnamebedrag"
       }
     },
     "LOGS": {
-      "TITLE": "Toegangscode voor betalingslogboek",
-      "DESC": "Code vereist om de betalingslogboeken van de muntwisselaar weer te geven",
+      "TITLE": "Toegangscode betalingslogboek",
+      "DESC": "Code vereist om de betalingslogboeken van de machine te bekijken",
       "CLEAN": {
-        "TITLE": "Toegangscode voor het opschonen van betalingslogboeken",
-        "DESC": "Code nodig om de betalingslogboeken van het muntmechanisme op te schonen"
+        "TITLE": "Toegangscode logboek wissen",
+        "DESC": "Code vereist om de betalingslogboeken van de machine te wissen"
       }
     }
+  },
+  "DOWNLOAD": {
+    "CODE": "Voer de code in",
+    "APK": "Applicatie downloaden",
+    "INSTALL": "Applicatie installeren"
+  },
+  "RECEIPT": {
+    "TITLE": "Een referentie invoeren",
+    "CONFIRM": "Betaling afronden"
+  },
+  "REBOOT": {
+    "TITLE": "Herstarten",
+    "QUESTION": "Wilt u de machine herstarten?"
+  },
+  "SHUTDOWN": {
+    "TITLE": "Uitschakelen",
+    "QUESTION": "Wilt u de machine uitschakelen?"
+  },
+  "EXPORT": {
+    "IN_PROGRESS": "Exporteren bezig...",
+    "COL_DATE":     "Datum & Tijd",
+    "COL_INSERTED": "Ingevoerd",
+    "COL_REST":     "Wisselgeld",
+    "COL_JUSTIF":   "Betalingsbewijs",
+    "COL_STATUS":   "Status",
+    "COL_AMOUNT":   "Bedrag",
+    "SUBTOTAL":     "Subtotaal",
+    "TOTAL":        "Totaal",
+    "NO_JUSTIF":    "Zonder betalingsbewijs"
   }
 }

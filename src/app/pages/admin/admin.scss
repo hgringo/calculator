@@ -130,22 +130,95 @@
 }
 
 
-.countdown {
-  font-size: 120px;
-  font-weight: bold;
-  color: white;
+/* HEADER */
+.confirm-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
+.confirm-header i {
+  color: #f59e0b; // orange warning
+  font-size: 1.6rem;
+}
+
+/* MESSAGE */
+.confirm-message {
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+/* FOOTER BUTTONS */
+.confirm-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* CANCEL = ROUGE */
+.btn-cancel {
+  flex: 1;
+  background-color: #ef4444 !important;
+  border: none !important;
+}
+
+.btn-cancel:hover {
+  background-color: #dc2626 !important;
+}
+
+/* CONFIRM = VERT */
+.btn-confirm {
+  flex: 1;
+  background-color: #22c55e !important;
+  border: none !important;
+}
+
+.btn-confirm:hover {
+  background-color: #16a34a !important;
+}
+
+
+
+
+
+
+
+/* OVERLAY FULL SCREEN */
 .system-overlay {
   position: fixed;
-  inset: 0;
-  background: black;
+  inset: 0; // top:0 left:0 right:0 bottom:0
+  background: white;
   z-index: 9999;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* bloque toute interaction derrière */
+  pointer-events: all;
+}
+
+/* CONTENU CENTRÉ */
+.overlay-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  color: white;
+  gap: 2rem;
+  text-align: center;
+}
+
+/* LOGO */
+.overlay-logo {
+  width: 440px;
+  height: auto;
+}
+
+/* TEXTE */
+.text {
+  font-size: 1.4rem;
+  font-weight: 600;
 }

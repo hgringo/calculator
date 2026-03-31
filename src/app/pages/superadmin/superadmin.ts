@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { DeviceConfigService } from '../../services/deviceConfig.service';
 import { ThemeService } from '../../services/theme.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { NetworkMode } from '../../types/config';
 
 @Component({
   standalone: true,
@@ -18,6 +20,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     FormsModule, 
     ButtonModule, 
     ToggleSwitchModule, 
+    SelectButtonModule,
     InputTextModule,
     TranslatePipe
   ],
@@ -36,7 +39,6 @@ export class Superadmin implements OnInit {
     { id: 'open_code', title: 'ACCESS.OPENDOOR.TITLE', value: '', description: "ACCESS.OPENDOOR.DESC" },
     { id: 'withdrawal_code', title: 'ACCESS.WITHDRAWAL.TITLE', value: '', description: "ACCESS.WITHDRAWAL.DESC" },
     { id: 'access_log_code', title: 'ACCESS.LOGS.TITLE', value: '', description: "ACCESS.LOGS.DESC" },
-    { id: 'access_clean_code', title: 'ACCESS.LOGS.CLEAN.TITLE', value: '', description: "ACCESS.LOGS.CLEAN.DESC" },
     { id: 'limit_withdrawal', title: 'ACCESS.WITHDRAWAL.LIMIT.TITLE', value: '', description: "ACCESS.WITHDRAWAL.LIMIT.DESC" }
   ];
 
@@ -58,6 +60,22 @@ export class Superadmin implements OnInit {
   hideMachineConfig: boolean = false;
   hideTheme: boolean = false;
 
+  receiptEnabled: boolean = false;
+  receiptEmail: string = '';
+
+  originalReceiptEnabled: boolean = false;
+  originalReceiptEmail: string = '';
+
+  societyName: string = '';
+  originalSocietyName: string = '';
+
+  networkModes = [
+    { label: 'Réseau ouvert [internet]', value: 'OPEN' },
+    { label: 'Réseau fermé', value: 'CLOSED' }
+  ];
+
+  networkMode: NetworkMode = 'OPEN'; // # OPEN by default
+
   constructor(
     private router: Router,
     private settingsService: SettingsService,
@@ -75,6 +93,7 @@ export class Superadmin implements OnInit {
     }
 
     this.ipInput = this.deviceConfigService.ip || '';
+    this.networkMode = this.deviceConfigService.networkMode || 'OPEN';
 
     this.originalFeatures = this.settingsService.loadFeatures(this.originalFeatures);
     this.originalAccessCodes = this.settingsService.loadAccessCodes(this.originalAccessCodes);
@@ -90,6 +109,19 @@ export class Superadmin implements OnInit {
 
     this.savPhone = this.themeService.getPhone();
     this.originalSavPhone = this.savPhone;
+
+    const receipt = this.settingsService.loadReceiptSettings();
+
+    this.receiptEnabled = receipt.enabled;
+    this.receiptEmail = receipt.email;
+
+    this.originalReceiptEnabled = receipt.enabled;
+    this.originalReceiptEmail = receipt.email;
+
+    const society = this.settingsService.loadSocietySettings();
+
+    this.societyName = society.name;
+    this.originalSocietyName = society.name;
   }
 
   selectLogo(logo: string) {
@@ -111,7 +143,10 @@ export class Superadmin implements OnInit {
     return (
       this.features.some((f, i) => f.enabled !== this.originalFeatures[i].enabled) ||
       this.accessCodes.some((c, i) => c.value !== this.originalAccessCodes[i].value) ||
-      this.savPhone !== this.originalSavPhone
+      this.savPhone !== this.originalSavPhone ||
+      this.receiptEnabled !== this.originalReceiptEnabled ||
+      this.receiptEmail !== this.originalReceiptEmail ||
+      this.societyName !== this.originalSocietyName
     );
   }
 
@@ -122,9 +157,21 @@ export class Superadmin implements OnInit {
     
     this.themeService.savePhone(this.savPhone);
 
+    this.settingsService.saveReceiptSettings({
+      enabled: this.receiptEnabled,
+      email: this.receiptEmail
+    });
+
+    this.settingsService.saveSocietySettings({
+      name: this.societyName
+    });
+
     this.originalFeatures = JSON.parse(JSON.stringify(this.features));
     this.originalAccessCodes = JSON.parse(JSON.stringify(this.accessCodes));
     this.originalSavPhone = this.savPhone;
+    this.originalReceiptEnabled = this.receiptEnabled;
+    this.originalReceiptEmail = this.receiptEmail;
+    this.originalSocietyName = this.societyName;
   }
 
 
@@ -132,13 +179,17 @@ export class Superadmin implements OnInit {
     this.features = JSON.parse(JSON.stringify(this.originalFeatures));
     this.accessCodes = JSON.parse(JSON.stringify(this.originalAccessCodes));
     this.savPhone = this.originalSavPhone;
+    this.receiptEnabled = this.originalReceiptEnabled;
+    this.receiptEmail = this.originalReceiptEmail;
+    this.societyName = this.originalSocietyName;
   }
 
   goBack() {
     this.router.navigate(['/calculator']);
   }
 
-  saveIp() {
+  saveMonnayeurData() {
+
     this.ipInvalid = false;
 
     if (!this.deviceConfigService.isValidIp(this.ipInput)) {
@@ -147,5 +198,6 @@ export class Superadmin implements OnInit {
     }
 
     this.deviceConfigService.ip = this.ipInput;
+    this.deviceConfigService.networkMode = this.networkMode;
   }
 }

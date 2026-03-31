@@ -1,5 +1,5 @@
 {
-  "RETURN": "Retour à la calculatrice",
+  "RETURN": "Retour",
   "CANCEL": "Annuler",
   "CLOSE": "Fermer",
   "CLOSEALL": "Tout fermer",
@@ -30,6 +30,18 @@
     },
     "ACCESS": {
       "TITLE": "Configuration code d'accès"
+    },
+    "RECEIPT": {
+      "TITLE": "Justificatif de paiement",
+      "DESC": "Permet de lier un justificatif au log de paiement"
+    },
+    "LOGS": {
+      "TITLE": "Export",
+      "EMAIL": "Addresse email de destination"
+    },
+    "SOCIETY": {
+      "TITLE": "Informations de l'entité",
+      "NAME": "Nom de l'entité"
     }
   },
   "ADMIN": {
@@ -88,8 +100,11 @@
     "ONCOURSE": "Paiement en cours",
     "ASKED": "Montant demandé",
     "INSERED": "Montant inséré",
-    "REST": "Reste non payé",
-    "CANCEL": "Annuler le paiement"
+    "REST": "Montant restant",
+    "ALREADY_RETURNED": "Montant rendu",
+    "CANCEL": "Annuler le paiement",
+    "TORETURN": "Montant à rendre",
+    "INSUFFICIENT_MACHINE_BALANCE": "Le solde de la machine est insuffisant pour rendre la monnaie"
   },
   "LOGS": {
     "TITLE": "Supprimer l’historique ?",
@@ -97,7 +112,11 @@
     "TOTAL": "Total des transactions",
     "TRANSACTIONS": "transaction(s)",
     "EMPTY": "Aucun paiement enregistré.",
-    "AMOUNT": "Total"
+    "AMOUNT": "Total",
+    "CLEAN": "Nettoyer",
+    "EXPORT": "Exporter + Nettoyer",
+    "SEND": "Envoyer + Nettoyer",
+    "SENDING": "Export en cours"
   },
   "DOOR": {
     "TITLE": "Ouverture de la porte",
@@ -162,5 +181,34 @@
         "DESC": "Code nécessaire pour nettoyer les logs de paiement du monnayeur"
       }
     }
+  },
+  "DOWNLOAD": {
+    "CODE": "Entrez le code",
+    "APK": "Télécharger l'application",
+    "INSTALL": "Installer l'application"
+  },
+  "RECEIPT": {
+    "TITLE": "Encoder un justificatif",
+    "CONFIRM": "Finaliser le paiement"
+  },
+  "REBOOT": {
+    "TITLE": "Redémarrage",
+    "QUESTION": "Voulez-vous redémarrer la machine ?"
+  },
+  "SHUTDOWN": {
+    "TITLE": "Extinction",
+    "QUESTION": "Voulez-vous éteindre la machine ?"
+  },
+  "EXPORT": {
+    "IN_PROGRESS": "Export en cours...",
+    "COL_DATE":     "Date & Heure",
+    "COL_INSERTED": "Introduit",
+    "COL_REST":     "Reste",
+    "COL_JUSTIF":   "Justificatif",
+    "COL_STATUS":   "Statut",
+    "COL_AMOUNT":   "Montant",
+    "SUBTOTAL":     "Sous-total",
+    "TOTAL":        "Total",
+    "NO_JUSTIF":    "Sans justificatif"
   }
 }

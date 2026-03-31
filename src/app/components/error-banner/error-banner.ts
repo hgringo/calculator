@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { CashError } from "../../types/VneCashMachineError";
 import { Subscription } from "rxjs";
 import { CashErrorService } from "../../services/error.service";
@@ -25,13 +25,17 @@ export class ErrorBannerComponent implements OnInit, OnDestroy {
   visible = false;
   private sub = new Subscription();
 
-  constructor(private errorService: CashErrorService) {}
+  constructor(
+    private errorService: CashErrorService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.sub.add(
       this.errorService.errors$.subscribe(errs => {
         this.errors = errs;
         this.visible = errs.length > 0;
+        this.cd.detectChanges();
       })
     );
   }

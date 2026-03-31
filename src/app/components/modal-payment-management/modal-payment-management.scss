@@ -83,3 +83,39 @@
   width: 100%;
   max-width: 420px;
 }
+
+
+.error-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ff4d4f;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 1rem;
+
+  .error-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+}
+
+/* CSS Smooth Blink Animation */
+.blink-smooth {
+    animation: blink_smooth 1s infinite;
+}
+
+@keyframes blink_smooth {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

@@ -50,14 +50,19 @@
 /* Lines */
 .log-line {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* pour mettre le justificatif en dessous */
   padding: 10px 0;
-
   border-bottom: 1px solid #eee;
 }
 
 .log-line:last-child {
   border-bottom: none;
+}
+
+.log-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .date {
@@ -69,6 +74,15 @@
   font-size: 14px;
   font-weight: 600;
   color: #111;
+}
+
+/* Justificatif */
+.log-receipt {
+  margin-top: 4px;       /* petit espace sous la ligne principale */
+  padding-left: 0;       /* aligné complètement à gauche */
+  font-size: 0.85rem;
+  color: #555;
+  word-break: break-word; /* texte long → retour à la ligne automatique */
 }
 
 /* Footer */
@@ -86,4 +100,15 @@
 .total {
   font-size: 18px;
   color: var(--primary-color, #007ad9);
+}
+
+
+
+
+.log-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* espace entre les boutons */
+  padding: 15px 20px;
+  margin-top: 10px;
 }

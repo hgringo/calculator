@@ -123,14 +123,18 @@
 
 .footer-buttons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 12px;
   margin-top: 20px;
   padding-top: 10px;
+
+  div {
+    display: flex;
+    gap: 10px;
+  }
 }
 
 .save-btn {
-  background-color: var(--primary-color);
   color: white;
   border: none;
 }
@@ -224,4 +228,8 @@
   p-button {
     width: fit-content;
   }
+}
+
+.networkMode {
+  margin: 15px 0;
 }

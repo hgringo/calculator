@@ -1,50 +1,48 @@
-<p-dialog 
-  header="{{ 'ERROR.HEADER' | translate }}"
-  [(visible)]="visible"
-  [modal]="true"
-  [closable]="true"
-  [dismissableMask]="true"
-  [style]="{ width: '500px' }"
-  (onHide)="clearAll()"
->
+@if (visible) {
+  <div class="error-banner">
 
-  @if (errors.length) {
-    <div class="lines">
+    <div class="header">
+      <span class="title">
+        ⚠️ {{ 'ERROR.HEADER' | translate }}
+      </span>
+
+      <button 
+        pButton 
+        icon="pi pi-times"
+        severity="secondary"
+        text
+        size="small"
+        (click)="clearAll()">
+      </button>
+    </div>
+
+    <div class="content">
       @for (e of errors; track e) {
         <div class="line">
-          <div class="line-header">
+
+          <div class="left">
+            <span class="type">{{ e.type }}</span>
+            <span class="message">{{ e.message }}</span>
+          </div>
+
+          <div class="right">
             <span class="timestamp">
-              {{ e.timestamp | date:'dd/MM/yyyy HH:mm' }}
+              {{ e.timestamp | date:'HH:mm:ss' }}
             </span>
-            <span class="type">[{{ e.type }}]</span>
-            <span class="code" *ngIf="e.code">({{ e.code }})</span>
+
+            <button 
+              pButton 
+              icon="pi pi-times"
+              severity="danger"
+              text
+              size="small"
+              (click)="remove(e)">
+            </button>
           </div>
 
-          <div class="message">
-            {{ e.message }}
-          </div>
-
-          <button 
-            pButton 
-            type="button" 
-            label="{{ 'CLOSE' | translate }}"
-            severity="danger"
-            size="small"
-            (click)="remove(e)">
-          </button>
         </div>
       }
     </div>
-  }
 
-  <ng-template pTemplate="footer">
-    <button 
-      pButton 
-      type="button" 
-      label="{{ 'CLOSEALL' | translate }}"
-      severity="secondary"
-      (click)="clearAll()">
-    </button>
-  </ng-template>
-
-</p-dialog>
+  </div>
+}

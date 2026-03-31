@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription, throwError } from 'rxjs';
@@ -7,19 +7,24 @@ import { timeout, catchError } from 'rxjs/operators';
 import { ModalIp } from '../../components/modal-ip/modal-ip';
 import { ModalPaymentManagement } from '../../components/modal-payment-management/modal-payment-management';
 import { ModalPaymentLogs } from '../../components/modal-payment-logs/modal-payment-logs';
-import { ModalPaymentLogsClean } from '../../components/modal-payment-logs-clean/modal-payment-logs-clean';
 
 import { environment } from '../../../environments/environment';
 import { SettingsService } from '../../services/settings.service';
 import { VneAutomaticCashService } from '../../services/VneProtocol.service';
 import { PaymentLogService } from '../../services/payment.log.service';
-import { VnePaymentResponse } from '../../types/VnePaymentRequest';
+import { VnePaymentPendingResponse, VnePaymentResponse } from '../../types/VnePaymentRequest';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CashErrorService } from '../../services/error.service';
 import { CashError } from '../../types/VneCashMachineError';
 import { ButtonModule } from 'primeng/button';
+import { ModalPaymentReceipt } from '../../components/modal-payment-receipt/modal-payment-receipt';
+
+interface ReceiptSettings {
+  enabled: boolean;
+  email: string;
+}
 
 @Component({
   standalone: true,
@@ -42,8 +47,15 @@ export class Calculator implements OnInit, OnDestroy {
 
   private adminCodeValue: string = '';
   private accessLogCodeValue: string = '';
-  private cleanLogCodeValue: string = '';
   private subscription: Subscription = new Subscription();
+
+  accessUnlocked = false;
+  inputCode = '';
+  expectedCode = '';
+  matchedCode: boolean = false;
+
+  receiptSettings!: ReceiptSettings;
+
 
   paymentData!: VnePaymentResponse;
 
@@ -56,20 +68,56 @@ export class Calculator implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private errorService: CashErrorService,
     private translate: TranslateService
+    
   ) {}
 
   ngOnInit() {
+
+    const unlocked = localStorage.getItem('calculatorUnlocked');
+    if (unlocked === 'true') {
+      this.accessUnlocked = true;
+    } else {
+      this.generateCode();
+    }
+
     this.subscription.add(
       this.settingsService.accessCodes$.subscribe(() => {
         const admin = this.settingsService.getAccessCode('admin_code');
         const log = this.settingsService.getAccessCode('access_log_code');
-        const clean = this.settingsService.getAccessCode('access_clean_code');
+
+        this.receiptSettings = this.settingsService.loadReceiptSettings();
 
         this.adminCodeValue = admin?.value || '';
         this.accessLogCodeValue = log?.value || '';
-        this.cleanLogCodeValue = clean?.value || '';
       })
     );
+  }
+
+  generateCode() {
+    const now = new Date();
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    const day = pad(now.getDate());
+    const month = pad(now.getMonth() + 1);
+    const year = now.getFullYear().toString().slice(-2);
+    const hour = pad(now.getHours());
+    const minute = pad(now.getMinutes());
+
+    this.expectedCode = `${day}${month}${year}${hour}${minute}`;
+  }
+
+  validateCode() {
+    if (this.matchedCode) {
+      this.accessUnlocked = true;
+      localStorage.setItem('calculatorUnlocked', 'true');
+    } else {
+      alert('Code incorrect');
+    }
+  }
+
+  onCodeChange(v: string) {
+    this.generateCode();
+    this.inputCode = v;
+    this.matchedCode = this.inputCode === this.expectedCode;
   }
 
   append(value: string) {
@@ -119,6 +167,18 @@ export class Calculator implements OnInit, OnDestroy {
   send() {
     if (this.isSending) return;
 
+    // Si display contient une expression, calcule-la avant envoi
+    if (!/^[0-9]+([.,][0-9]{1,2})?$/.test(this.display)) {
+      // On essaye de calculer
+      this.calculate();
+      // Après calculate, display contient le résultat ou 'Erreur'
+      if (this.display === 'Erreur') {
+        this.failPayment('PAYMENT', this.translate.instant("ERROR.AMOUNT"));
+        this.clear();
+        return;
+      }
+    }
+
     this.isSending = true;
 
     // 🔐 SUPERADMIN
@@ -150,19 +210,6 @@ export class Calculator implements OnInit, OnDestroy {
       return;
     }
 
-    // 🔐 CLEAN LOGS
-    if (this.cleanLogCodeValue && this.display === this.cleanLogCodeValue) {
-      this.resetSending();
-      this.resetDisplay();
-      this.dialogService.open(ModalPaymentLogsClean, {
-        modal: true,
-        resizable: true,
-        closable: true,
-        styleClass: 'full no-border'
-      });
-      return;
-    }
-
     if (!this.isValidAmount()) {
       this.failPayment(
         'PAYMENT',
@@ -179,82 +226,155 @@ export class Calculator implements OnInit, OnDestroy {
     this.isSending = false;
   }
 
-private failPayment(type: CashError['type'], error: any, code?: string) {
-  this.errorService.push({
-    type,
-    message: typeof error === 'string' ? error : JSON.stringify(error),
-    code,
-    timestamp: Date.now()
-  });
-  this.isSending = false;
-  this.cd.markForCheck();
-}
+  private failPayment(type: CashError['type'], error: any, code?: string) {
 
-private resetDisplay() {
-  this.display = '';
-}
+    const current = this.errorService.getCurrent();
 
-private startPayment() {
+    const newError: CashError = {
+      type,
+      message: typeof error === 'string' ? error : JSON.stringify(error),
+      code,
+      timestamp: Date.now()
+    };
 
-  if (!this.isValidAmount()) {
-    this.failPayment('PAYMENT', this.translate.instant('ERROR.AMOUNT'));
-    this.clear();
-    return;
+    // 🔥 merge intelligent (évite doublon)
+    const exists = current.some(e => e.type === type && e.code === code);
+
+    const updated = exists
+      ? current
+      : [...current, newError];
+
+    this.errorService.update(updated);
+
+    // 🔥 auto-remove (important pour erreur ponctuelle)
+    setTimeout(() => {
+      const afterRemove = this.errorService['_errors$'].value
+        .filter(e => !(e.type === type && e.code === code));
+
+      this.errorService.update(afterRemove);
+    }, 5000);
+
+    this.isSending = false;
+    this.cd.markForCheck();
   }
 
-  const amount = parseFloat(this.display);
-  const amountCents = amount * 100;
+  private resetDisplay() {
+    this.display = '';
+  }
 
-  this.protocolService.startPayment(amountCents, 'OP1')
-    .pipe(
-      timeout(5000),
-      catchError(err => {
-        this.failPayment('NETWORK', err.message);
-        return throwError(() => err);
-      })
-    )
-    .subscribe({
-      next: (data: any) => {
-       
-        if (!data || data.success === false || data.status === 'ERROR') {
-          this.failPayment('PAYMENT', data, data?.errorCode);
-          return;
+  private startPayment() {
+
+    if (!this.isValidAmount()) {
+      this.failPayment('PAYMENT', this.translate.instant('ERROR.AMOUNT'));
+      this.clear();
+      return;
+    }
+
+    const amount = parseFloat(this.display);
+    const amountCents = amount * 100;
+
+    this.protocolService.startPayment(amountCents, 'OP1')
+      .pipe(
+        timeout(5000),
+        catchError(err => {
+          this.failPayment('NETWORK', err.message);
+          return throwError(() => err);
+        })
+      )
+      .subscribe({
+        next: (data: any) => {
+
+          if (!data || data.success === false || data.status === 'ERROR') {
+            this.failPayment('PAYMENT', data, data?.errorCode);
+            return;
+          }
+
+          this.openPaymentModal(data, amount);
+        },
+        error: (err) => {
+          if (!this.isSending) return; 
+          this.failPayment('NETWORK', err.message);
         }
+      });
+  }
 
-        this.paymentData = data;
+  private openPaymentModal(data: VnePaymentResponse, amount: number) {
 
-        const ref = this.dialogService.open(ModalPaymentManagement, {
-          modal: true,
-          resizable: true,
-          closable: false,
-          styleClass: 'full no-border',
-          data: { paymentData: this.paymentData }
-        });
+    this.paymentData = data;
 
-        if (ref)
-          ref.onClose.subscribe((result: "success" | "cancelled") => {
-
-            if (result === "success") {
-              this.paymentLogService.addLog(amount);
-            }
-
-          });
-
-        this.resetSending();
-        this.resetDisplay();
-        this.cd.markForCheck();
-      },
-      error: (err) => {
-        if (!this.isSending) return; 
-        this.failPayment('NETWORK', err.message);
-      }
+    const ref = this.dialogService.open(ModalPaymentManagement, {
+      modal: true,
+      resizable: true,
+      closable: false,
+      styleClass: 'full no-border',
+      data: { paymentData: this.paymentData }
     });
-}
 
+    if (ref) {
+      ref.onClose.subscribe((response: VnePaymentPendingResponse) => {
 
+        // Complete state
+        if (response.tipo === 2 && response.payment_status === 1) {
+
+          if (this.receiptSettings.enabled) {
+            this.openReceiptModal(response);
+          }
+          else 
+          {
+            this.paymentLogService.addLog(response);
+          }
+        }
+        // Cancel state
+        else if (response.tipo === 3) {
+          
+            const enrichedResponse: VnePaymentPendingResponse & {
+              payment_details: {
+                status: string;
+                amount: number;
+                inserted: number;
+                rest: number;
+              }
+            } = {
+              ...response,
+              payment_details: {
+                status: 'CANCELED',
+                amount: this.paymentData.importo,
+                inserted: 0,
+                rest: 0,
+                not_returned: 0
+              }
+            };
+
+            this.paymentLogService.addLog(enrichedResponse);
+        }
+        else {
+          this.paymentLogService.addLog(response);
+        }
+      });
+    }
+
+    this.resetSending();
+    this.resetDisplay();
+    this.cd.markForCheck();
+  }
+
+  private openReceiptModal(response: VnePaymentPendingResponse) {
+
+    const ref = this.dialogService.open(ModalPaymentReceipt, {
+      modal: true,
+      resizable: true,
+      closable: false,
+      styleClass: 'full no-border'
+    });
+
+    if (ref) {
+      ref.onClose.subscribe((modalreturn: any) => {
+        this.paymentLogService.addLog(response, modalreturn.justificatif);
+      });
+    }
+  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }

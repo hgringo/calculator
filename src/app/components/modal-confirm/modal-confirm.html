@@ -1,0 +1,25 @@
+<div class="confirm-container">
+
+      <div class="icon">
+        <i class="pi pi-exclamation-triangle"></i>
+      </div>
+
+      <div class="title">
+        {{ config.data.title | translate }}
+      </div>
+
+      <div class="message">
+        {{ config.data.message | translate }}
+      </div>
+
+      <div class="actions">
+        <button pButton class="btn-cancel" (click)="close(false)">
+          {{ 'CANCEL' | translate }}
+        </button>
+
+        <button pButton class="btn-confirm" (click)="close(true)">
+          {{ 'CONFIRM' | translate }}
+        </button>
+      </div>
+
+    </div>

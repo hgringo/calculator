@@ -23,15 +23,33 @@
 
     <!-- Liste -->
     @for (log of logs; track log) {
-      <div class="log-line">
-        <span class="date">
-          {{ log.timestamp | date: 'dd/MM/yyyy HH:mm' }}
-        </span>
 
-        <span class="amount">
-          {{ log.amount }} €
-        </span>
+  <div class="log-line">
+
+        <!-- Ligne principale : date + montant -->
+        <div class="log-main">
+          <span class="date">
+            {{ log.timestamp | date: 'dd/MM/yyyy HH:mm' }}
+          </span>
+
+          <span class="amount">
+            @if (log.amount % 1 !== 0) {
+              {{ log.amount | number:'1.2-2' }} €
+            } @else {
+              {{ log.amount }} €
+            }
+          </span>
+        </div>
+
+        <!-- Justificatif -->
+        @if (isJustificatifEnabled() && log.justif) {
+          <div class="log-receipt">
+            {{ log.justif }}
+          </div>
+        }
+
       </div>
+
     }
 
   </div>
@@ -40,8 +58,42 @@
   <div class="log-footer">
     <span>{{ 'LOGS.AMOUNT' | translate }}</span>
     <span class="total">
-      {{ total }} €
+      @if (total % 1 !== 0) {
+        {{ total | number:'1.2-2' }} €
+      } @else {
+        {{ total }} €
+      }
     </span>
+  </div>
+
+  <div class="log-actions">
+
+    <p-button 
+      label="{{ 'LOGS.CLEAN' | translate }}" 
+      icon="pi pi-trash" 
+      severity="danger" 
+      class="w-full w-full--btn" 
+      (click)="onCleanLogs()">
+    </p-button>
+
+    <p-button 
+      label="{{ 'LOGS.EXPORT' | translate }}" 
+      icon="pi pi-upload" 
+      severity="info" 
+      class="w-full w-full--btn" 
+      (click)="onExportLogs()">
+    </p-button>
+
+    @if (networkMode === 'OPEN') {
+      <p-button 
+        label="{{ 'LOGS.SEND' | translate }}" 
+        icon="pi pi-envelope" 
+        severity="success" 
+        class="w-full w-full--btn" 
+        (click)="onSendLogsByEmail()">
+      </p-button>
+    }
+
   </div>
 
 </div>

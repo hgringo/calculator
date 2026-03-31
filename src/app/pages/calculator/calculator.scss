@@ -10,7 +10,7 @@
   padding: 12px;
   gap: 12px;
   box-sizing: border-box;
-  overflow: hidden; /* empêche le scroll */
+  overflow: hidden;
 }
 
 .calculator.locked {
@@ -67,14 +67,18 @@
   color: #111827;
 }
 
-/* effet tactile */
-::ng-deep .btn .p-button:active {
-  transform: scale(0.95);
-}
-
 /* ===============================
    COLORS
 =============================== */
+
+::ng-deep {
+  .btn.equal .p-button,
+  .btn.danger .p-button,
+  .btn.gray .p-button,
+  .btn.operator .p-button {
+    border: 0;
+  }
+} 
 
 ::ng-deep .btn.gray .p-button {
   background: #e5e7eb;
@@ -114,13 +118,17 @@
 
 ::ng-deep .send-btn .p-button {
   width: 100%;
-  height: 12dvh; /* réduit en paysage */
-  min-height: 80px;
+  height: 75px;
   border-radius: 20px;
   font-size: clamp(24px, 5vw, 42px);
   background: var(--primary-color);
   color: white;
-  border: none;
+  border: 0;
+
+  &:hover {
+    background-color: var(--primary-color);
+    border: 0;
+  }
 }
 
 /* ===============================
@@ -140,34 +148,68 @@
   to { transform: rotate(360deg); }
 }
 
-/* ===============================
-   LANDSCAPE SPECIFIC
-=============================== */
+/* ================= CONTAINER ================= */
+.install-container {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #f8fafc, #eef2f7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-family: system-ui, -apple-system, sans-serif;
+  z-index: 9999;
+}
 
-@media (orientation: landscape) {
-  .calculator {
-    padding: 6px;
-    gap: 6px;
-  }
+/* ================= CARD ================= */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 420px;
+  max-width: 92vw;
+  background: white;
+  border-radius: 26px;
+  padding: 36px 26px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  text-align: center;
+  position: relative;
+}
 
-  .display {
-    font-size: clamp(24px, 5vw, 60px);
-    height: 80px;
-  }
+/* ================= LOGO ================= */
+.logo {
+  width: clamp(90px, 22vw, 140px);
+  height: auto;
+  max-height: 140px;
+  margin-bottom: 18px;
+  opacity: .95;
+}
 
-  .grid {
-    gap: 4px;
-  }
+/* ================= SUBTITLE ================= */
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 26px;
+  font-size: 15px;
+}
 
-  ::ng-deep .btn .p-button {
-    font-size: clamp(16px, 4vw, 32px);
-    border-radius: 16px;
-  }
+/* ================= INPUT ================= */
+input {
+  width: 100%;
+  font-size: 26px;
+  padding: 16px;
+  text-align: center;
+  border-radius: 14px;
+  border: 2px solid #e5e7eb;
+  outline: none;
+  transition: .2s;
+  letter-spacing: 2px;
+}
 
-  ::ng-deep .send-btn .p-button {
-    height: 10dvh;
-    min-height: 60px;
-    font-size: clamp(20px, 4vw, 36px);
-    border-radius: 16px;
-  }
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+
+.validate {
+  margin-top: 15px;
 }

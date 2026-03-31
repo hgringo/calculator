@@ -7,6 +7,7 @@ import { VneAutomaticCashService } from '../../services/VneProtocol.service';
 import { VnePaymentPendingResponse, VnePaymentResponse } from '../../types/VnePaymentRequest';
 import { interval, Subject, switchMap, takeUntil } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
+import { CashInventoryService } from '../../services/cash-inventory.service';
 
 @Component({
   standalone: true,
@@ -27,10 +28,15 @@ export class ModalPaymentManagement implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
+  insufficientBalance: boolean = false;
+
+  toReturn!: number;
+
   constructor(
     private protocolService: VneAutomaticCashService,
     private ref: DynamicDialogRef,
     private cd: ChangeDetectorRef,
+    private cashInventoryService: CashInventoryService,
     private config: DynamicDialogConfig
   ) {}
 
@@ -41,6 +47,7 @@ export class ModalPaymentManagement implements OnInit, OnDestroy {
     if (this.paymentData) {
 
       this.paymentState = {
+        id: "",
         payment_status: 0,
         payment_details: {
           amount: 0,
@@ -59,28 +66,53 @@ export class ModalPaymentManagement implements OnInit, OnDestroy {
   // POLLING PAYMENT
   // ==============================
   private startPolling() {
-    interval(100)
+    interval(500)
       .pipe(
         takeUntil(this.destroy$),
         switchMap(() => this.protocolService.pollPayment(this.paymentData.id))
       )
       .subscribe({
-        next: (response) => {
+        next: (response: VnePaymentPendingResponse) => {
 
           this.paymentState = response;
 
+          const amount = response.payment_details.amount / 100;
+          const inserted = response.payment_details.inserted / 100;
+
+          if (inserted > 0)
+            this.toReturn = (response.payment_details.inserted - response.payment_details.amount);
+
+          if (inserted > amount) {
+
+            const change = inserted - amount;
+
+            if (this.paymentState.payment_details.status != "completed" && !this.cashInventoryService.canReturnChange(change)) {
+              this.handleInsufficientChange();
+              return;
+            }
+          }
+
           if (this.isPaymentFinished(response)) {
-            this.closeModal("success");
+            this.closeModal(response);
             return;
           }
 
-          // refresh UI
           this.cd.detectChanges();
         },
         error: (err) => {
           console.error('Polling error', err);
         }
       });
+  }
+
+  private handleInsufficientChange() {
+
+    if (this.insufficientBalance) return;
+
+    this.insufficientBalance = true;
+    this.stopPolling();
+
+    this.cd.detectChanges();
   }
 
   private isPaymentFinished(response: VnePaymentPendingResponse): boolean {
@@ -95,7 +127,9 @@ export class ModalPaymentManagement implements OnInit, OnDestroy {
 
     this.protocolService.cancelPayment(this.paymentData.id)
       .subscribe({
-        next: () => this.closeModal("cancelled"),
+        next: (response: VnePaymentPendingResponse) => {
+          this.closeModal(response)
+        },
         error: (err) => console.error('Cancel payment failed', err)
       });
   }
@@ -103,13 +137,21 @@ export class ModalPaymentManagement implements OnInit, OnDestroy {
   // ==============================
   // CLOSE MODAL CLEANLY
   // ==============================
-  private closeModal(result: "success" | "cancelled") {
+  private closeModal(result: any) {
     this.stopPolling();
     this.ref.close(result);
   }
 
   private stopPolling() {
     this.destroy$.next();
+  }
+
+  get remainingAmount(): number {
+    if (!this.paymentState?.payment_details) return 0;
+
+    const { amount, inserted } = this.paymentState.payment_details;
+
+    return Math.max(amount - inserted, 0);
   }
 
   ngOnDestroy() {

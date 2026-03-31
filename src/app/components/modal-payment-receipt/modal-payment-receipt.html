@@ -1,0 +1,33 @@
+<div class="receipt-container">
+
+  <div class="receipt-card">
+
+    <h2 class="receipt-title">
+      <i class="pi pi-file-edit"></i>
+      {{ 'RECEIPT.TITLE' | translate }}
+    </h2>
+
+    <div class="receipt-details">
+        
+      <textarea
+        pInputTextarea
+        rows="4"
+        [(ngModel)]="content"
+        class="receipt-textarea"
+      ></textarea>
+
+    </div>
+
+  </div>
+
+  <div class="receipt-actions">
+    <p-button
+      class="w-full w-full--btn"
+      label="{{ 'RECEIPT.CONFIRM' | translate }}"
+      icon="pi pi-check"
+      severity="success"
+      (click)="confirm()"
+    ></p-button>
+  </div>
+
+</div>

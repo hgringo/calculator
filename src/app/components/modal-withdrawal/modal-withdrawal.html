@@ -80,11 +80,12 @@
     ></p-button>
 
     <p-button
-      label="{{ 'WITHDRAWAL.CONFIRM' | translate}}"
+      label="{{ 'WITHDRAWAL.CONFIRM' | translate }}"
       icon="pi pi-check"
+      [disabled]="!canSubmit || isSubmitting"
+      [loading]="isSubmitting"
+      (click)="onConfirm()"
       severity="success"
-      [disabled]="!amount || !enteredCode || !canSubmit"
-      (onClick)="onConfirm()"
     ></p-button>
 
   </div>

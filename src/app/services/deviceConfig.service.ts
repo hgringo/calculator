@@ -1,17 +1,27 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { NetworkMode } from "../types/config";
 
 @Injectable({ providedIn: 'root' })
 export class DeviceConfigService {
 
   private readonly KEY = 'device_ip';
+  private readonly KEY_NETWORK_MODE = 'device_network_mode';
 
   private ipSubject = new BehaviorSubject<string | null>(this.loadIp());
   ip$ = this.ipSubject.asObservable();
 
+  private networkModeSubject = new BehaviorSubject<NetworkMode>(this.loadNetworkMode());
+  networkMode$ = this.networkModeSubject.asObservable();
+
   private loadIp(): string | null {
     return localStorage.getItem(this.KEY);
   }
+
+  private loadNetworkMode(): NetworkMode {
+    return (localStorage.getItem(this.KEY_NETWORK_MODE) as NetworkMode) ?? 'OPEN';
+  }
+
 
   get ip(): string | null {
     return this.ipSubject.value;
@@ -28,6 +38,15 @@ export class DeviceConfigService {
     const clean = value.trim();
     localStorage.setItem(this.KEY, clean);
     this.ipSubject.next(clean);
+  }
+
+  get networkMode(): NetworkMode {
+    return this.networkModeSubject.value;
+  }
+
+  set networkMode(mode: NetworkMode) {
+    localStorage.setItem(this.KEY_NETWORK_MODE, mode);
+    this.networkModeSubject.next(mode);
   }
 
   clear() {

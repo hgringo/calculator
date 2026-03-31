@@ -9,6 +9,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SettingsService } from '../../services/settings.service';
 import { VneAutomaticCashService } from '../../services/VneProtocol.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { interval, Subject, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'modal-withdrawal',
@@ -25,7 +26,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 })
 export class ModalWithdrawal implements OnInit {
 
-  amount: number = 0;
+  amount!: number;
   maxAllowed: number = 0;
   enteredCode: string = '';
   justification: string = '';
@@ -40,6 +41,12 @@ export class ModalWithdrawal implements OnInit {
 
   canSubmit: boolean = true;
 
+  isSubmitting: boolean = false;
+
+  private destroy$ = new Subject<void>();
+  isPolling: boolean = false;
+  transactionId?: string;
+
   constructor(
     private settingsService: SettingsService,
     private protocolService: VneAutomaticCashService,
@@ -53,8 +60,13 @@ export class ModalWithdrawal implements OnInit {
     this.dailyWithdrawn = this.config.data.dailyWithdrawn || 0;
     this.machineAvailable = this.config.data.machineAvailable || 0;
 
-    if (this.dailyLimit)
-      this.maxAllowed = Math.min( this.dailyLimit - this.dailyWithdrawn, this.machineAvailable );
+   if (this.dailyLimit != null) {
+      const remainingDaily = this.dailyLimit - this.dailyWithdrawn;
+      this.maxAllowed = Math.max(
+        0,
+        Math.min(remainingDaily, this.machineAvailable)
+      );
+    }
   }
 
   onAmountChange(value: number) {
@@ -98,6 +110,8 @@ export class ModalWithdrawal implements OnInit {
   // ----------------------------
   onConfirm() {
 
+    if (this.isSubmitting) return;
+
     this.amountErrorMessage = this.codeErrorMessage = '';
 
     const storedCode =
@@ -108,20 +122,77 @@ export class ModalWithdrawal implements OnInit {
     }
 
     if (!storedCode || this.enteredCode !== storedCode) {
-      this.codeErrorMessage = this.translate.instant("WITHDRAWAL.WRONGCODE");;
+      this.codeErrorMessage = this.translate.instant("WITHDRAWAL.WRONGCODE");
     }
 
-    if (!this.amount || this.amountErrorMessage != '' || this.codeErrorMessage != '') return;
-    else this.amountErrorMessage = this.codeErrorMessage = '';
+    if (!this.amount || this.amountErrorMessage || this.codeErrorMessage) return;
 
+    this.isSubmitting = true;
+
+    // ===================
+    // Start withdrawal request
+    // ===================
     this.protocolService.startWithdrawal(this.amount * 100, "all", this.justification)
       .subscribe({
-        next: () => {
-          this.ref.close(this.amount);
+        next: (res: any) => {
+          // res doit contenir l’ID de la transaction
+          this.transactionId = res?.id;
+          if (this.transactionId) {
+            this.startPollingWithdrawal(this.transactionId);
+          } else {
+            // fallback si pas d'ID
+            this.ref.close(this.amount);
+          }
         },
         error: () => {
           this.errorMessage = this.translate.instant("WITHDRAWAL.ERROR");
+          this.isSubmitting = false;
         }
       });
   }
+
+  private startPollingWithdrawal(transactionId: string) {
+
+    if (!transactionId) return;
+
+    this.isPolling = true;
+
+    interval(1000)
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => 
+          this.protocolService.pollingWithdrawal(transactionId, "USERNAME")
+        )
+      )
+      .subscribe({
+        next: (status: any) => {
+          
+          if (status.withdraw_status === 2) {
+            return;
+          }
+
+          if (status.withdraw_status === 1) {
+            this.isPolling = false;
+            this.ref.close(status.payment_details);
+          }
+
+          if (status.withdraw_status !== 1 && status.withdraw_status !== 2) {
+            this.isPolling = false;
+            this.errorMessage = this.translate.instant("WITHDRAWAL.ERROR");
+            this.isSubmitting = false;
+          }
+        },
+        error: (err: any) => {
+          this.isPolling = false;
+          this.isSubmitting = false;
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
 }

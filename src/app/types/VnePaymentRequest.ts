@@ -1,5 +1,5 @@
 import { VneCommandType } from "../enum/VneCommandType";
-import { VneBaseRequest, VneBaseResponse } from "./VneBaseRequest";
+import { VneBaseRequest } from "./VneBaseRequest";
 
 export interface VnePaymentRequest extends VneBaseRequest {
   tipo: VneCommandType.PaymentRequest;

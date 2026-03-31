@@ -23,6 +23,11 @@
 
         <div>
           <label for="ip-input" class="label">{{ 'SUPERADMIN.MONNAYEUR.IP' | translate }}</label>
+          
+          <div class="networkMode">
+            <p-selectButton [options]="networkModes" [(ngModel)]="networkMode" fluid ></p-selectButton>
+          </div>
+
           <input 
             pInputText 
             id="ip-input" 
@@ -36,7 +41,8 @@
           class="w-full--btn"
           icon="pi pi-save" 
           label="{{ 'SUPERADMIN.MONNAYEUR.UPDATE' | translate }}"
-          (click)="saveIp()" 
+          (click)="saveMonnayeurData()" 
+          severity="success"
           [disabled]="!ipInput.trim()">
         </p-button>
       </div>
@@ -109,6 +115,15 @@
         <p-toggleswitch [(ngModel)]="feature.enabled"></p-toggleswitch>
       </div>
     }
+
+    <div class="item feature-item">
+      <div class="feature-text">
+        <h3>{{ 'SUPERADMIN.RECEIPT.TITLE' | translate }}</h3>
+        <p class="feature-desc">{{ 'SUPERADMIN.RECEIPT.DESC' | translate }}</p>
+      </div>
+      <p-toggleswitch [(ngModel)]="receiptEnabled"></p-toggleswitch>
+    </div>
+
   </section>
 
   <!-- ACCESS CODE -->
@@ -125,9 +140,28 @@
     }
   </section>
 
+  <section class="section">
+    <h2>{{ "SUPERADMIN.LOGS.TITLE" | translate }}</h2>
+    <div class="item access-item">
+        <label>{{ 'SUPERADMIN.LOGS.EMAIL' | translate }}</label>
+        <input type="email" class="w-full" pInputText [(ngModel)]="receiptEmail" placeholder="Ex: email@gmail.com" />
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>{{ "SUPERADMIN.SOCIETY.TITLE" | translate }}</h2>
+    <div class="item access-item">
+        <label>{{ 'SUPERADMIN.SOCIETY.NAME' | translate }}</label>
+        <input type="text" class="w-full" pInputText [(ngModel)]="societyName" />
+    </div>
+  </section>
+
   <div class="footer-buttons">
-    <p-button label="{{ 'CANCEL' | translate }}" severity="secondary" [disabled]="!hasChanges()" (click)="cancel()"></p-button>
-    <p-button label="{{ 'SAVE' | translate }}" icon="pi pi-save" severity="success" [disabled]="!hasChanges()" (click)="save()"></p-button>
+    <p-button icon="pi pi-times" label="{{ 'RETURN' | translate }}" severity="secondary" (click)="goBack()"></p-button>
+    <div>
+      <p-button label="{{ 'CANCEL' | translate }}" severity="secondary" [disabled]="!hasChanges()" (click)="cancel()"></p-button>
+      <p-button label="{{ 'SAVE' | translate }}" icon="pi pi-save" class="save-btn" severity="success" [disabled]="!hasChanges()" (click)="save()"></p-button>
+    </div>
   </div>
 
 </div>

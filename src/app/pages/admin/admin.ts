@@ -11,15 +11,15 @@ import { VneAutomaticCashService } from '../../services/VneProtocol.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ModalOpenDoor } from '../../components/modal-open-door/modal-open-door';
 import { ModalWithdrawal } from '../../components/modal-withdrawal/modal-withdrawal';
-import { interval, Subject, takeUntil, switchMap, finalize } from 'rxjs';
+import { interval, Subject, takeUntil, switchMap, of } from 'rxjs';
 import { ThemeService } from '../../services/theme.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import {DynamicDialogModule } from 'primeng/dynamicdialog'
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ModalCashierBalancingClean } from '../../components/modal-cashier-balancing-clean/modal-cashier-balancing-clean';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { LongPressDirective } from '../../directives/longpress.directive';
-
+import { ModalConfirm } from '../../components/modal-confirm/modal-confirm';
+import { CashErrorService } from '../../services/error.service';
 
 interface AccessCode {
   id: string;
@@ -39,8 +39,7 @@ interface AccessCode {
     DialogModule,
     DynamicDialogModule,
     PasswordModule,
-    TranslatePipe,
-    LongPressDirective
+    TranslatePipe
   ],
   templateUrl: './admin.html',
   styleUrls: ['./admin.scss'],
@@ -48,23 +47,23 @@ interface AccessCode {
 })
 export class Admin implements OnInit, OnDestroy {
 
-  isLoading: boolean = false;
-  refillAmount: number = 0;
+  private USE_MOCK: boolean = false;
 
-  private destroy$ = new Subject<void>();
+  // REFILL
+  isLoading = false;
+  refillAmount = 0;
 
+  // WITHDRAWAL / OPEN DOOR
   withdrawalCode?: AccessCode;
   openDoorCode?: AccessCode;
-  limitWithDrawal?: string | undefined;
+  limitWithDrawal?: string;
+  dailyWithdrawn = 0;
 
-  dailyWithdrawn: number = 0;
-
-  countdown: number | null = null;
-  countdownTimer: any;
-  private systemDestroy$ = new Subject<void>();
-
+  // SYSTEM ACTION
   isSystemAction = false;
   systemMessage = '';
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -72,80 +71,76 @@ export class Admin implements OnInit, OnDestroy {
     private vneProtocolService: VneAutomaticCashService,
     private dialogService: DialogService,
     public themeService: ThemeService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private cashErrorService: CashErrorService
   ) {}
 
+  // ==============================
+  // INIT / DESTROY
+  // ==============================
   ngOnInit() {
-   
     this.withdrawalCode = this.settingsService.getAccessCode('withdrawal_code');
     this.openDoorCode = this.settingsService.getAccessCode('open_code');
     this.limitWithDrawal = this.settingsService.getAccessCode('limit_withdrawal')?.value;
-
     this.loadDailyWithdrawn();
   }
 
-  private loadDailyWithdrawn() {
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
+  // ==============================
+  // DAILY WITHDRAWN
+  // ==============================
+  private loadDailyWithdrawn() {
     const key = 'dailyWithdrawn';
     const today = new Date().toISOString().slice(0,10);
     const stored = localStorage.getItem(key);
 
     if (stored) {
-      const data = JSON.parse(stored);
-      if (data.date === today) {
-        this.dailyWithdrawn = data.amount;
-      } 
-      else {
+      try {
+        const data = JSON.parse(stored);
+        this.dailyWithdrawn =
+          data?.date === today ? Number(data.amount) || 0 : 0;
+      } catch {
         this.dailyWithdrawn = 0;
-        localStorage.setItem(key, JSON.stringify({ date: today, amount: 0 }));
       }
-    } 
-    else {
-      localStorage.setItem(key, JSON.stringify({ date: today, amount: 0 }));
     }
+
+    localStorage.setItem(key, JSON.stringify({ date: today, amount: this.dailyWithdrawn }));
   }
 
   private saveDailyWithdrawn() {
     const today = new Date().toISOString().slice(0,10);
-    localStorage.setItem('dailyWithdrawn', JSON.stringify({ date: today, amount: this.dailyWithdrawn }));
+    localStorage.setItem('dailyWithdrawn', JSON.stringify({
+      date: today,
+      amount: this.dailyWithdrawn
+    }));
   }
 
   canWithdraw(amount: number): boolean {
-    if (this.limitWithDrawal)
-      return (this.dailyWithdrawn + amount) <= +this.limitWithDrawal;
-  
-    return true;
+    return this.limitWithDrawal
+      ? (this.dailyWithdrawn + amount) <= +this.limitWithDrawal
+      : true;
   }
 
-  ngOnDestroy() {
-    this.stopPolling();
-    this.systemDestroy$.next();
-    this.systemDestroy$.complete();
-    this.destroy$.complete();
-  }
-
+  // ==============================
+  // REFILL
+  // ==============================
   toggleLoading(start: boolean) {
     this.isLoading = start;
-
-    if (start) {
-      this.startRefill();
-    } else {
-      this.endRefill();
-    }
+    start ? this.startRefill() : this.endRefill();
   }
 
-  // ================================
-  // REFILL
-  // ================================
   private startRefill() {
     this.vneProtocolService.startRefill('OP1', 0).subscribe({
       next: () => {
         this.refillAmount = 0;
         this.startPolling();
       },
-      error: (err) => {
+      error: () => {
         this.isLoading = false;
-        this.cd.detectChanges();
       }
     });
   }
@@ -153,13 +148,11 @@ export class Admin implements OnInit, OnDestroy {
   private endRefill() {
     this.vneProtocolService.endRefill('OP1').subscribe({
       next: () => {
-        this.stopPolling();
+        this.destroy$.next();
         this.isLoading = false;
-        this.cd.detectChanges();
       },
-      error: (err) => {
+      error: () => {
         this.isLoading = false;
-        this.cd.detectChanges();
       }
     });
   }
@@ -173,21 +166,14 @@ export class Admin implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.refillAmount = res.amountRefill || 0;
-          this.cd.detectChanges();
         },
-        error: (err) => {
-          console.error("Polling refill error", err);
-        }
+        error: (err) => console.error("Polling refill error", err)
       });
   }
 
-  private stopPolling() {
-    this.destroy$.next();
-  }
-
-  // ================================
-  // OTHER ACTIONS
-  // ================================
+  // ==============================
+  // ACTIONS
+  // ==============================
   goBack() {
     this.router.navigate(['/calculator']);
   }
@@ -195,157 +181,153 @@ export class Admin implements OnInit, OnDestroy {
   onOpenDoor() {
     this.dialogService.open(ModalOpenDoor, {
       modal: true,
-      resizable: true,
-      closable: true,
-      styleClass: 'full no-border',
-      inputValues: {}
+      styleClass: 'full no-border'
     });
   }
 
-  handleWithdrawal() {
-
-    this.vneProtocolService.getMachineStatus().subscribe((status:any) => {
+handleWithdrawal() {
+  this.getMachineStatusWithMock().subscribe({
+    next: (status: any) => {
 
       let total = 0;
 
-      // recycler
+      // =========================
+      // 💵 RECYCLER (billets)
+      // =========================
       if (status.recycler) {
         Object.values(status.recycler).forEach((n: any) => {
-          if (n && n.valore && n.quantita) {
+          if (n?.valore && n?.quantita) {
             total += n.valore * parseInt(n.quantita, 10);
           }
         });
       }
 
-      // hopper
+      // =========================
+      // 🪙 HOPPER (pièces)
+      // =========================
       if (status.hopper) {
         Object.keys(status.hopper).forEach(k => {
-          if (k.startsWith('moneta_') && !k.includes('_')) {
-            const value = parseInt(k.split('_')[1], 10);
-            const qty = status.hopper[k];
-            total += value * qty;
+
+          // ✅ uniquement moneta_XX (exclut _cashbox, _recycle, etc.)
+          const match = k.match(/^moneta_(\d+)$/);
+
+          if (match) {
+            const value = parseInt(match[1], 10);
+            const quantity = status.hopper[k] ?? 0;
+
+            total += value * quantity;
           }
         });
       }
 
-      const dialogRef = this.dialogService.open(ModalWithdrawal, {
+      const ref = this.dialogService.open(ModalWithdrawal, {
         modal: true,
         styleClass: 'full no-border',
         data: {
           dailyLimit: +this.limitWithDrawal!,
           dailyWithdrawn: this.dailyWithdrawn,
-          machineAvailable: total / 100 // en €
+          machineAvailable: total / 100
         }
       });
 
-      if (dialogRef)
-        dialogRef.onClose.subscribe((withdrawnAmount: number) => {
-          if (withdrawnAmount) {
-            this.dailyWithdrawn += withdrawnAmount;
+      if (ref) {
+        ref.onClose.subscribe((res: any) => {
+          if (res?.amount != null) {
+            this.dailyWithdrawn += res.amount / 100;
             this.saveDailyWithdrawn();
-            this.cd.detectChanges();
           }
         });
+      }
 
-    });
-  }
+    },
+    error: (err: any) => {
+      this.cashErrorService.update([{
+        type: 'NETWORK',
+        message: 'Machine inaccessible ou hors réseau',
+        code: 'NET_ERR',
+        timestamp: Date.now()
+      }]);
 
-  onReboot() {
-    this.systemMessage = 'ADMIN.REBOOTING';
+      this.cd.detectChanges();
+    }
+  });
+}
 
-    this.vneProtocolService.rebootMonnayeur('OP1')
-      .pipe(
-        finalize(() => {
-          setTimeout(() => {
-            this.isSystemAction = false;
-            this.cd.detectChanges();
-          }, 1000);
-        })
-      )
-      .subscribe();
-  }
-
-  onShutdown() {
-    this.systemMessage = 'ADMIN.SHUTTING_DOWN';
-
-    this.vneProtocolService.shutdownMonnayeur('OP1')
-      .pipe(
-        finalize(() => {
-          setTimeout(() => {
-            this.isSystemAction = false;
-            this.cd.detectChanges();
-          }, 1000);
-        })
-      )
-      .subscribe();
-  }
-
-  startSystemAction(type: 'reboot' | 'shutdown') {
-
-    if (this.isSystemAction) return;
-
-    this.isSystemAction = true;
-    this.countdown = 3;
-
-    interval(1000)
-      .pipe(takeUntil(this.systemDestroy$))
-      .subscribe(() => {
-
-        if (this.countdown === null) return;
-        
-        const next = this.countdown - 1;
-
-        if (next === 0) {
-          this.countdown = null;
-          this.cd.detectChanges();
-          this.launchSystemCall(type);
-          return;
-        }
-
-        this.countdown = next;
-        this.cd.detectChanges();
-      });
-  }
-
-  private launchSystemCall(type: 'reboot' | 'shutdown') {
-
-    this.systemMessage = type === 'reboot' ? 'ADMIN.REBOOTING' : 'ADMIN.SHUTTING_DOWN';
-    this.cd.detectChanges();
-
-    let call$;
-
-    if (type === 'reboot') {
-      call$ = this.vneProtocolService.rebootMonnayeur('OP1');
-    } else {
-      call$ = this.vneProtocolService.shutdownMonnayeur('OP1');
+  getMachineStatusWithMock(): any {
+    if (this.USE_MOCK) {
+      return of(this.getMockStatus()); // mock
     }
 
-    call$
-      .pipe(
-        finalize(() => {
-          this.closeSystemOverlay();
-        })
-      )
-      .subscribe();
+    return this.vneProtocolService.getMachineStatus(); // réel
   }
 
-  private closeSystemOverlay() {
-    setTimeout(() => {
-      this.isSystemAction = false;
-      this.countdown = null;
-      this.systemDestroy$.next();
-      this.cd.detectChanges();
-    }, 800);
+  getMockStatus() {
+    return {
+      recycler: {
+        note_5: { valore: 500, quantita: "10" },   // 5€ x 10
+        note_10: { valore: 1000, quantita: "5" }, // 10€ x 5
+        note_20: { valore: 2000, quantita: "2" }  // 20€ x 2
+      },
+      hopper: {
+        moneta_5: 0,   // 50cents x 100
+        moneta_10: 0,   
+        moneta_20: 0,  
+        moneta_50: 0   
+      }
+    };
   }
 
   onCashierBalancing() {
-
     this.dialogService.open(ModalCashierBalancingClean, {
-      header: '',
-      width: '420px',
-      closable: false,
       modal: true,
-      dismissableMask: true
-    })
+      closable: false
+    });
+  }
+
+  // ==============================
+  // SYSTEM ACTION
+  // ==============================
+
+  confirmSystemAction(type: 'reboot' | 'shutdown') {
+    const ref = this.dialogService.open(ModalConfirm, {
+      modal: true,
+      closable: false,
+      styleClass: 'confirm-dialog',
+      data: {
+        title: type === 'reboot' ? 'REBOOT.TITLE' : 'SHUTDOWN.TITLE',
+        message: type === 'reboot' ? 'REBOOT.QUESTION' : 'SHUTDOWN.QUESTION'
+      }
+    });
+
+    if (ref)
+    ref.onClose.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.executeSystemAction(type);
+      }
+    });
+  }
+
+  private executeSystemAction(type: 'reboot' | 'shutdown') {
+
+    setTimeout(() => {
+      this.isSystemAction = true;
+      this.systemMessage = type === 'reboot' ? 'ADMIN.REBOOTING' : 'ADMIN.SHUTTING_DOWN';
+      this.cd.detectChanges();
+    }, 0);
+
+    const call$ = type === 'reboot'
+      ? this.vneProtocolService.rebootMonnayeur('OP1')
+      : this.vneProtocolService.shutdownMonnayeur('OP1');
+
+    call$.subscribe({
+      error: () => console.error('Erreur action système')
+    });
+
+    const duration = type === 'reboot' ? 90_000 : 30_000; // ms
+
+    setTimeout(() => {
+      this.isSystemAction = false;
+      this.cd.detectChanges();
+    }, duration);
   }
 }

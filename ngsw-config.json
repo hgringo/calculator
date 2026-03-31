@@ -18,12 +18,33 @@
     },
     {
       "name": "assets",
-      "installMode": "lazy",
+      "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
         "files": [
-          "/**/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+          "!/assets/version.json",
+          "/assets/**",
+          "node_modules/primeicons/**",
+          "/*.png",
+          "/*.jpg",
+          "/*.svg",
+          "/*.webp",
+          "/*.ico"
         ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "version-api",
+      "urls": [
+        "/assets/version.json"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 1,
+        "maxAge": "0u",
+        "timeout": "1s"
       }
     }
   ]

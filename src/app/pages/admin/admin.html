@@ -7,35 +7,30 @@
       <p-button icon="pi pi-times" label="{{ 'RETURN' | translate}}" severity="secondary" (click)="goBack()"></p-button>
     </div>
     <div class="header-actions">
-            <p-button
-              class="action"
-              icon="pi pi-replay"
-              severity="info"
-              size="large"
-              [title]="'ADMIN.RESTART' | translate"
-              longPress
-              [duration]="3000"
-              (longPress)="startSystemAction('reboot')"
-            />
 
-            <p-button
-              class="action"
-              icon="pi pi-power-off"
-              severity="danger"
-              size="large"
-              [title]="'ADMIN.SHUTDOWN' | translate"
-              longPress
-              [duration]="3000"
-              (longPress)="startSystemAction('shutdown')"
-            />
+      <p-button class="action" size="large" severity="info"
+        (click)="confirmSystemAction('reboot')">
+        <i class="pi pi-replay"></i>
+      </p-button>
 
-            <p-button class="action" [disabled]="!openDoorCode?.value" icon="pi pi-lock-open" size="large" severity="success" title="{{ 'ADMIN.OPENDOOR' | translate}}" (onClick)="onOpenDoor()" />
-            <p-button class="action" icon="pi pi-euro" severity="secondary" size="large" title="{{ 'ADMIN.CASHCLOSING' | translate }}" (onClick)="onCashierBalancing()" />
-      </div>
+      <p-button class="action" size="large" severity="danger"
+        (click)="confirmSystemAction('shutdown')">
+        <i class="pi pi-power-off"></i>
+      </p-button>
+
+
+
+      <!-- OTHER BUTTONS -->
+      <p-button class="action" [disabled]="!openDoorCode?.value" icon="pi pi-lock-open" size="large" title="{{ 'ADMIN.OPENDOOR' | translate}}" (onClick)="onOpenDoor()"></p-button>
+      <p-button class="action" icon="pi pi-euro" severity="secondary" size="large" title="{{ 'ADMIN.CASHCLOSING' | translate }}" (onClick)="onCashierBalancing()"></p-button>
+
+    </div>
   </div>
 
+  <!-- REFILL SECTION -->
   <section class="section background--highlight">
     <div class="actions">
+
       <div class="action-container">
         <div class="header">
           <span class="action-title">{{ 'ADMIN.REFILL.LOADING' | translate }}</span>
@@ -44,25 +39,13 @@
 
         @if (!isLoading) {
           <div>
-            <p-button
-              icon="pi pi-play"
-              label="{{ 'ADMIN.REFILL.START' | translate }}"
-              class="w-full--btn"
-              (click)="toggleLoading(true)">
-            </p-button>
+            <p-button icon="pi pi-play" label="{{ 'ADMIN.REFILL.START' | translate }}" class="w-full--btn" severity="success" (click)="toggleLoading(true)"></p-button>
           </div>
         }
 
         @if (isLoading) {
           <div>
-            <p-button
-              icon="pi pi-stop"
-              label="{{ 'ADMIN.REFILL.STOP' | translate }}"
-              class="w-full--btn"
-              severity="danger"
-              (click)="toggleLoading(false)">
-            </p-button>
-  
+            <p-button icon="pi pi-stop" label="{{ 'ADMIN.REFILL.STOP' | translate }}" class="w-full--btn" severity="danger" (click)="toggleLoading(false)"></p-button>
             <div class="refill-info">
               <strong>{{ 'ADMIN.REFILL.AMOUNT' | translate }} :</strong> {{ refillAmount / 100 | number:'1.2-2' }} €
             </div>
@@ -70,61 +53,50 @@
         }
       </div>
 
-      <!-- Withdrawal -->
+      <!-- WITHDRAWAL SECTION -->
       <div class="action-container">
         <div class="header">
           <span class="action-title">{{ 'ADMIN.WITHDRAWAL.TITLE' | translate }}</span>
           <span class="action-icon pi pi-euro text--green"></span>
         </div>
 
-          @if (!withdrawalCode?.value) {
-              <p class="warning-msg">
-                  <i class="pi pi-exclamation-triangle"></i>
-                  {{ 'ADMIN.WITHDRAWAL.NOCODE' | translate }}
-              </p>
-          }
+        @if (!withdrawalCode?.value) {
+          <p class="warning-msg">
+            <i class="pi pi-exclamation-triangle"></i>
+            {{ 'ADMIN.WITHDRAWAL.NOCODE' | translate }}
+          </p>
+        }
 
-          @if (withdrawalCode?.value) {
-            <p-button icon="pi pi-euro" label="Effectuer un retrait" class="w-full--btn" (click)="handleWithdrawal()"></p-button>
-          }
+        @if (withdrawalCode?.value) {
+          <p-button icon="pi pi-euro" severity="success" label="Effectuer un retrait" class="w-full--btn" (click)="handleWithdrawal()"></p-button>
+        }
       </div>
 
     </div>
   </section>
 
-  @if (themeService.getPhone()) {
+  <!-- SAV PHONE -->
+  @if (themeService.getPhone())
+  {
     <div class="sav-phone">
       <span class="label">{{ 'ADMIN.SAV.TITLE' | translate }}</span>
-
-      <!-- lien téléphone -->
       <a class="phone" [href]="'tel:' + themeService.getPhone()">
         <i class="pi pi-phone"></i>
         {{ themeService.getPhone() }}
       </a>
-
       <span class="hours">7/7 • 10h - 19h</span>
     </div>
   }
 
 </div>
 
-
+<!-- SYSTEM OVERLAY -->
 @if (isSystemAction) {
   <div class="system-overlay">
-
-    @if (countdown !== null) {
-      <div class="countdown">
-        {{ countdown }}
-      </div>
-    }
-
-    @if (countdown === null) {
+    <div class="overlay-content">
+      <img src="assets/pwa/logo.svg" class="overlay-logo" />
       <p-progressSpinner></p-progressSpinner>
-
-      <div class="text">
-        {{ systemMessage | translate }}
-      </div>
-    }
-
+      <div class="text">{{ systemMessage | translate }}</div>
+    </div>
   </div>
 }

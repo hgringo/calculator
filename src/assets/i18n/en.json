@@ -1,5 +1,5 @@
 {
-  "RETURN": "Back to calculator",
+  "RETURN": "Back",
   "CANCEL": "Cancel",
   "CLOSE": "Close",
   "CLOSEALL": "Close all",
@@ -8,10 +8,10 @@
   "CONFIRM": "Confirm",
   "SUPERADMIN": {
     "TITLE": "Administration",
-    "DESC": "Manage your app's features and credentials.",
+    "DESC": "Manage the features and access codes of your application.",
     "MONNAYEUR": {
-      "TITLE": "Coin acceptor configuration",
-      "IP": "Coin Mechanist IP Address",
+      "TITLE": "Cash machine configuration",
+      "IP": "Cash machine IP address",
       "UPDATE": "Update"
     },
     "THEME": {
@@ -19,39 +19,51 @@
       "LOGO": {
         "CHOOSE": "Choose a logo"
       },
-      "COLOR": "Main color",
+      "COLOR": "Primary colour",
       "SAV": {
-        "TITLE": "Technical support (after-sales service)",
+        "TITLE": "Technical support (SAV)",
         "HINT": "This number will be displayed in the application to contact support."
       }
     },
     "FEATURES": {
-      "TITLE": "Enabling Features"
+      "TITLE": "Feature activation"
     },
     "ACCESS": {
       "TITLE": "Access code configuration"
+    },
+    "RECEIPT": {
+      "TITLE": "Payment receipt",
+      "DESC": "Link a receipt to the payment log"
+    },
+    "LOGS": {
+      "TITLE": "Export",
+      "EMAIL": "Destination email address"
+    },
+    "SOCIETY": {
+      "TITLE": "Entity information",
+      "NAME": "Entity name"
     }
   },
   "ADMIN": {
-    "TITLE": "Customer",
+    "TITLE": "Client",
     "RESTART": "Restart",
-    "SHUTDOWN": "Turn off",
-    "OPENDOOR": "Open the door",
-    "CASHCLOSING": "Cash register closure",
-    "REBOOTING": "Reboot in progress...",
-    "SHUTTING_DOWN": "Shutdown in progress...",
+    "SHUTDOWN": "Shut down",
+    "OPENDOOR": "Open door",
+    "CASHCLOSING": "Cash closing",
+    "REBOOTING": "Restarting...",
+    "SHUTTING_DOWN": "Shutting down...",
     "REFILL": {
       "LOADING": "Loading",
       "START": "Start loading",
-      "AMOUNT": "Amount introduced",
+      "AMOUNT": "Amount inserted",
       "STOP": "Stop loading"
     },
     "WITHDRAWAL": {
       "TITLE": "Secure withdrawal",
-      "NOCODE": "The withdrawal code is not defined! "
+      "NOCODE": "The withdrawal code is not defined! Withdrawals are unavailable."
     },
     "SAV": {
-      "TITLE": "After-sales service / Technical support"
+      "TITLE": "SAV / Technical support"
     }
   },
   "CALCULATOR": {
@@ -60,74 +72,84 @@
   "update": {
     "title": "Update available",
     "new": "A new version of the application is available",
-    "btn": "To update"
+    "btn": "Update"
   },
   "HEALTH": {
-    "TICKET": "Tickets",
-    "MONNEY": "Pieces"
+    "TICKET": "Banknotes",
+    "MONNEY": "Coins"
   },
   "WITHDRAWAL": {
     "TITLE": "Cash withdrawal",
-    "DESC": "Please fill in the necessary information to make a withdrawal.",
+    "DESC": "Please fill in the required information to make a withdrawal.",
     "AMOUNT": "Amount",
     "CODE": "Withdrawal code",
     "ENTER": "Enter the code",
-    "COMMENT": "Proof",
+    "COMMENT": "Receipt",
     "LIMIT": "Daily limit",
-    "ALREADY": "Already removed",
+    "ALREADY": "Already withdrawn",
     "REST": "Max remaining",
     "CONFIRM": "Confirm withdrawal",
-    "LIMITREACH": "Daily limit reached! ",
+    "NOTENOUGH": "Withdrawal exceeds the available amount",
+    "LIMITREACH": "Daily limit reached! Maximum remaining amount",
+    "AVAILABLE_MACHINE": "Available in the machine",
     "INCORRECTAMOUNT": "Please enter a valid amount.",
-    "WRONGCODE": "Incorrect code. ",
-    "ERROR": "Error during withdrawal. "
+    "WRONGCODE": "Incorrect code. Withdrawal denied.",
+    "ERROR": "Withdrawal error. Please try again."
   },
   "PAYMENT": {
     "ONCOURSE": "Payment in progress",
-    "ASKED": "Amount requested",
-    "INSERED": "Amount inserted",
-    "CANCEL": "Cancel payment"
+    "ASKED": "Requested amount",
+    "INSERED": "Inserted amount",
+    "REST": "Remaining amount",
+    "ALREADY_RETURNED": "Amount returned",
+    "CANCEL": "Cancel payment",
+    "TORETURN": "Amount to return",
+    "INSUFFICIENT_MACHINE_BALANCE": "The machine balance is insufficient to return change"
   },
   "LOGS": {
     "TITLE": "Delete history?",
-    "DESC": "Do you want to delete all saved payment transactions?",
+    "DESC": "Do you want to delete all recorded payment transactions?",
     "TOTAL": "Total transactions",
-    "TRANSACTIONS": "transactions)",
+    "TRANSACTIONS": "transaction(s)",
     "EMPTY": "No payments recorded.",
-    "AMOUNT": "Total"
+    "AMOUNT": "Total",
+    "CLEAN": "Clear",
+    "EXPORT": "Export + Clear",
+    "SEND": "Send + Clear",
+    "SENDING": "Export in progress"
   },
   "DOOR": {
-    "TITLE": "Opening the door",
-    "DESC": "Please enter the access code to open the coin door.",
+    "TITLE": "Door opening",
+    "DESC": "Please enter the access code to open the cash machine door.",
     "CODE": "Security code",
     "ENTER": "Enter the code",
     "OPEN": "Open the door",
-    "INCORRECTCODE": "Incorrect code. ",
+    "INCORRECTCODE": "Incorrect code. Please try again.",
     "ERROR": "Error opening the door."
   },
   "IP": {
     "TITLE": "Initial setup",
-    "DESC": "Please enter the IP address of the coin mechanism before using the application.",
-    "ADDRESS": "Coin Mechanist IP Address",
+    "DESC": "Please enter the cash machine IP address before using the application.",
+    "ADDRESS": "Cash machine IP address",
     "INVALID": "Invalid IP address"
   },
   "CLOSING": {
-    "TITLE": "Cash register closure",
-    "DESC": "Do you want to start closing the cash register?"
+    "TITLE": "Cash closing",
+    "DESC": "Do you want to start the cash closing?"
   },
   "ERROR": {
-    "MONNAYEUR": "Coin changer unreachable",
-    "AMOUNT": "'Invalid amount. ",
+    "MONNAYEUR": "Cash machine unreachable",
+    "AMOUNT": "Invalid amount. The amount must be greater than 0.",
     "HEADER": "System error"
   },
   "BLOCKER": {
-    "TITLE": "Unsupported device",
-    "DESC": "This application can only be used on tablet or laptop."
+    "TITLE": "Device not supported",
+    "DESC": "This application can only be used on a tablet or laptop."
   },
   "FEATURES": {
     "HOOPER": {
-      "TITLE": "Hooper",
-      "DESC": "Enable hooper content detail display"
+      "TITLE": "Hopper",
+      "DESC": "Enable display of hopper content details"
     },
     "RECYCLER": {
       "TITLE": "Recycler",
@@ -135,25 +157,58 @@
     }
   },
   "ACCESS": {
+    "ADMIN": {
+      "TITLE": "Admin access code",
+      "DESC": "Code required to access the administrator interface"
+    },
     "OPENDOOR": {
       "TITLE": "Door opening code",
-      "DESC": "Coin mechanism door opening code"
+      "DESC": "Code to open the cash machine door"
     },
     "WITHDRAWAL": {
       "TITLE": "Withdrawal code",
-      "DESC": "Code required to withdraw money from the coin mechanism",
+      "DESC": "Code required to make a cash withdrawal from the machine",
       "LIMIT": {
         "TITLE": "Daily withdrawal limit",
-        "DESC": "Daily withdrawal limit authorized"
+        "DESC": "Maximum daily withdrawal amount allowed"
       }
     },
     "LOGS": {
       "TITLE": "Payment log access code",
-      "DESC": "Code required to display the coin changer payment logs",
+      "DESC": "Code required to view the machine payment logs",
       "CLEAN": {
-        "TITLE": "Access code for cleaning payment logs",
-        "DESC": "Code needed to clean the coin mechanism payment logs"
+        "TITLE": "Payment log clearing access code",
+        "DESC": "Code required to clear the machine payment logs"
       }
     }
+  },
+  "DOWNLOAD": {
+    "CODE": "Enter the code",
+    "APK": "Download the application",
+    "INSTALL": "Install the application"
+  },
+  "RECEIPT": {
+    "TITLE": "Enter a receipt reference",
+    "CONFIRM": "Finalise payment"
+  },
+  "REBOOT": {
+    "TITLE": "Restart",
+    "QUESTION": "Do you want to restart the machine?"
+  },
+  "SHUTDOWN": {
+    "TITLE": "Shutdown",
+    "QUESTION": "Do you want to shut down the machine?"
+  },
+  "EXPORT": {
+    "IN_PROGRESS": "Export in progress...",
+    "COL_DATE":     "Date & Time",
+    "COL_INSERTED": "Inserted",
+    "COL_REST":     "Change",
+    "COL_JUSTIF":   "Receipt",
+    "COL_STATUS":   "Status",
+    "COL_AMOUNT":   "Amount",
+    "SUBTOTAL":     "Sub-total",
+    "TOTAL":        "Total",
+    "NO_JUSTIF":    "No receipt"
   }
 }

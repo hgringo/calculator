@@ -8,26 +8,42 @@ export class CashErrorService {
   private _errors$ = new BehaviorSubject<CashError[]>([]);
   errors$ = this._errors$.asObservable();
 
+  getCurrent(): CashError[] {
+    return this._errors$.value;
+  }
+
   clear() {
     this._errors$.next([]);
   }
 
-  push(error: CashError) {
-    const list = this._errors$.value;
+  update(errors: CashError[]) {
+    const current = this._errors$.value;
 
-    // Évite les doublons pour le même type + code
-    if (!list.some(e => e.type === error.type && e.code === error.code)) {
-      this._errors$.next([...list, error]);
+    const updated: CashError[] = [];
+
+    for (const err of errors) {
+      const existing = current.find(e => 
+        e.type === err.type && e.code === err.code
+      );
+
+      if (existing) {
+        // ✅ garde la même ref → évite re-render inutile
+        updated.push({
+          ...existing,
+          timestamp: err.timestamp // ou garder ancien si tu veux
+        });
+      } else {
+        // ✅ nouvelle erreur
+        updated.push(err);
+      }
     }
+
+    this._errors$.next(updated);
   }
 
   remove(type: CashError['type'], code?: string) {
     const list = this._errors$.value;
     this._errors$.next(list.filter(e => !(e.type === type && (!code || e.code === code))));
-  }
-
-  set(errors: CashError[]) {
-    this._errors$.next(errors);
   }
 
   parseMachineStatus(machine: any, reqStatus: number): CashError[] {
